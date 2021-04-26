@@ -1,49 +1,53 @@
 package com.example.piwater.controller;
 
+import com.example.piwater.service.*;
+import com.pi4j.io.gpio.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
-import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.RaspiPin;
-
-import javax.ws.rs.*;
 
 @RestController
 public class WaterController {
-	private GpioController gpio ;
+
+	@Autowired
+	WaterService waterService;
+
 
 	@GetMapping("/state")
 	public RestResult getStatus(){
-		return new RestResult(200, "It's on!");
+		final GpioController gpio = GpioFactory.getInstance();
+		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED");
+		boolean state = pin.isHigh();
+		String result;
+		if(state){
+			result = "Pin is on!";
+		}
+		else{
+			result = "Pin is off :(";
+		}
+		return new RestResult(200, result);
 	}
 
 	@PostMapping("/state")
 	public void setStatus(boolean state) {
-		//GpioController gpioController; //Put it in singleton
 
-		// create gpio controller
 		final GpioController gpio = GpioFactory.getInstance();
-
-		// provision gpio pin #01 as an output pin and turn on
-		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED");
-
-		// set shutdown state for this pin
-		//pin.setShutdownOptions(true, PinState.LOW);
+		GpioPinDigitalOutput gpioPin = (GpioPinDigitalOutput) gpio.getProvisionedPin(RaspiPin.GPIO_01);
 
 		if(state){
-			pin.high();
+			gpioPin.high();
 		}
 		else
 		{
-			pin.low();
+			gpioPin.low();
 		}
+	}
 
-		// stop all GPIO activity/threads by shutting down the GPIO controller
-		// (this method will forcefully shutdown all GPIO monitoring threads and scheduled tasks)
+	@GetMapping("/shutdown")
+	public RestResult shutdown(){
+		final GpioController gpio = GpioFactory.getInstance();
+		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED");
 		gpio.shutdown();
 		gpio.unprovisionPin(pin);
-		}
-
-
+		return new RestResult(200, "Shutdown!");
+	}
 }
