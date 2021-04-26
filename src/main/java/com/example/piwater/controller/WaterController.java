@@ -13,33 +13,14 @@ public class WaterController {
 
 
 	@GetMapping("/state")
-	public RestResult getStatus(){
-		final GpioController gpio = GpioFactory.getInstance();
-		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED");
-		boolean state = pin.isHigh();
-		String result;
-		if(state){
-			result = "Pin is on!";
-		}
-		else{
-			result = "Pin is off :(";
-		}
-		return new RestResult(200, result);
+	public RestResult getState(){
+
+		return new RestResult(200, waterService.getState());
 	}
 
 	@PostMapping("/state")
-	public void setStatus(boolean state) {
-
-		final GpioController gpio = GpioFactory.getInstance();
-		GpioPinDigitalOutput gpioPin = (GpioPinDigitalOutput) gpio.getProvisionedPin(RaspiPin.GPIO_01);
-
-		if(state){
-			gpioPin.high();
-		}
-		else
-		{
-			gpioPin.low();
-		}
+	public RestResult setState(boolean state) {
+		return new RestResult(200, waterService.changeState(state));
 	}
 
 	@GetMapping("/shutdown")
