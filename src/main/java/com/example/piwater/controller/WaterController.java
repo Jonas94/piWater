@@ -25,7 +25,7 @@ public class WaterController {
 
 	@PostMapping("/enableWatering")
 	public RestResult enableWatering(WaterInput waterInput) {
-∂		try{
+		try{
 			waterService.enableWateringForDuration(waterInput);
 		} catch (IsBusyException e) {
 			return new RestResult(400, "Water system is busy, please try later!"); //TODO: Fix proper code

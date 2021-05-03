@@ -36,7 +36,7 @@ class WaterServiceTest {
 	void testScheduleStopWatering() throws IsBusyException {
 
 
-		WaterInput waterInput = new WaterInput(1, new Date());
+		WaterInput waterInput = new WaterInput(1, LocalDateTime.now());
 
 
 		waterService.enableWateringForDuration(waterInput);
