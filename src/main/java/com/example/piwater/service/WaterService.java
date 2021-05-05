@@ -6,8 +6,6 @@ import com.example.piwater.scheduling.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
-import java.time.*;
-
 @Service
 public class WaterService {
 
@@ -30,6 +28,18 @@ public class WaterService {
 		scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem,true), waterInput.getStartDate());
 
 		scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, false), waterInput.getStartDate().plusMinutes(waterInput.getMinutesToWater()));
+	}
+
+	public void enableWateringNowForDuration(WaterInput waterInput) throws IsBusyException {
+		if (waterSystem.isBusy()) {
+			throw new IsBusyException("The watering system is busy! Try again later.");
+		}
+
+		//TODO: Set start date and end date in a better way
+
+		scheduler.scheduleActivityWithDelayInMinutes(new ChangeStateTask(waterSystem,true), 0);
+		scheduler.scheduleActivityWithDelayInMinutes(new ChangeStateTask(waterSystem,false), waterInput.getMinutesToWater());
+
 	}
 
 	public String changeState(boolean state) {
