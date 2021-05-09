@@ -34,17 +34,6 @@ public class WaterController {
 		return new RestResult(200, "Watering!"); //TODO: replace with a response about scheduling
 	}
 
-	@PostMapping("/enableWateringNow")
-	public RestResult enableWateringNow(WaterInput waterInput) {
-		try{
-			waterService.enableWateringNowForDuration(waterInput);
-		} catch (IsBusyException e) {
-			return new RestResult(400, "Water system is busy, please try later!"); //TODO: Fix proper code
-
-		}
-		return new RestResult(200, "Planned!"); //TODO: replace with a response about scheduling
-	}
-
 	@GetMapping("/shutdown")
 	public RestResult shutdown(){
 		final GpioController gpio = GpioFactory.getInstance();
