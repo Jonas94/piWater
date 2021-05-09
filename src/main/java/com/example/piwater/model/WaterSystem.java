@@ -11,5 +11,5 @@ public interface WaterSystem {
 
 	public String changeState(boolean state);
 
-		public GpioPinDigitalOutput getRelayPin();
+	public GpioPinDigitalOutput getRelayPin();
 }

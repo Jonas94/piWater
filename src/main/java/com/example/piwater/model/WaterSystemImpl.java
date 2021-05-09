@@ -1,9 +1,11 @@
 package com.example.piwater.model;
 
 import com.pi4j.io.gpio.*;
+import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.stereotype.*;
 
-@Component("waterSystem")
+@Component
+@ConditionalOnProperty(name = "gpio.mock", havingValue = "false", matchIfMissing = true)
 public class WaterSystemImpl implements WaterSystem {
 
 	@Override

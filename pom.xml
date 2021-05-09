@@ -43,6 +43,11 @@
             <version>1.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>7.2.0</version>
+        </dependency>
 
         <!-- Alternative repository source required for com.pi4j.pi4j-core-1.2-SNAPSOT -->
 
@@ -127,6 +132,12 @@
                 </configuration>
             </plugin>
         </plugins>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>true</filtering>
+                </resource>
+            </resources>
     </build>
 
     <repositories>

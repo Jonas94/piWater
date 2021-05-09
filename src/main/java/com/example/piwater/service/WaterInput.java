@@ -24,6 +24,11 @@ public class WaterInput {
 		return startDate;
 	}
 
+	public long getStartDateAsLong(){
+		return startDate.toEpochSecond(ZoneOffset.UTC);
+	}
 
-
+	public void setStartDate(LocalDateTime startDate) {
+		this.startDate = startDate;
+	}
 }
