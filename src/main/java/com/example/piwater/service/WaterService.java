@@ -30,8 +30,6 @@ public class WaterService {
 			throw new IsBusyException("The watering system is busy! Try again later.");
 		}
 
-		//TODO: Set start date and end date in a better way
-
 		if(waterInput.getStartDate().isBefore(LocalDateTime.now())){
 			waterInput.setStartDate(LocalDateTime.now());
 		}
@@ -41,32 +39,10 @@ public class WaterService {
 			scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem,true), waterInput.getStartDate());
 			scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, false), waterInput.getStartDate().plusMinutes(waterInput.getMinutesToWater()));
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (IOException | ExecutionException | InterruptedException e) {
+			//TODO: LOG ISSUE AND SHOW IT
 		}
-
 	}
-
-	public void enableWateringNowForDuration(WaterInput waterInput) throws IsBusyException {
-		//TODO: Delete this? Should be enough with the other endpoint
-		if (waterSystem.isBusy()) {
-			throw new IsBusyException("The watering system is busy! Try again later.");
-		}
-
-		//TODO: Set start date and end date in a better way
-
-
-		scheduler.scheduleActivityWithDelayInMinutes(new ChangeStateTask(waterSystem,true), 0);
-
-		scheduler.scheduleActivityWithDelayInMinutes(new ChangeStateTask(waterSystem,false), waterInput.getMinutesToWater());
-
-	}
-
-
 
 	public String changeState(boolean state) {
 		return waterSystem.changeState(state);

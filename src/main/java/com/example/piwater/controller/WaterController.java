@@ -4,6 +4,7 @@ import com.example.piwater.*;
 import com.example.piwater.service.*;
 import com.pi4j.io.gpio.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,7 +12,6 @@ public class WaterController {
 
 	@Autowired
 	WaterService waterService;
-
 
 	@GetMapping("/state")
 	public RestResult getState(){
@@ -24,14 +24,16 @@ public class WaterController {
 	}
 
 	@PostMapping("/enableWatering")
-	public RestResult enableWatering(WaterInput waterInput) {
+	public ResponseEntity<String> enableWatering(WaterInput waterInput) {
 		try{
 			waterService.enableWateringForDuration(waterInput);
 		} catch (IsBusyException e) {
-			return new RestResult(400, "Water system is busy, please try later!"); //TODO: Fix proper code
-
+			return new ResponseEntity("Water system is busy, please try later!", HttpStatus.OK); //TODO: Make this json
 		}
-		return new RestResult(200, "Watering!"); //TODO: replace with a response about scheduling
+
+		String result = "Watering scheduled at " + waterInput.getStartDate() + " for " + waterInput.getMinutesToWater() + " minutes";
+
+		return new ResponseEntity(result, HttpStatus.OK); //TODO: Make this json
 	}
 
 	@GetMapping("/shutdown")

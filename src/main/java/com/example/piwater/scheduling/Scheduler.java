@@ -21,18 +21,9 @@ public class Scheduler {
 		this.executor = taskExecutor;
 	}
 
-
-	public void scheduleActivityWithDelayInMinutes(final Runnable task, int duration) {
-		//Schedules from now + duration in minutes
-		LOG.info("TASK {} HAS BEEN SCHEDULED IN {} MINUTE!", task.getClass().getName(), duration);
-		executor.schedule(task, Date.from(LocalDateTime.now().plusMinutes(duration)
-		                                               .atZone(ZoneId.systemDefault()).toInstant()));
-
-	}
-
 	public void scheduleActivityWithDate(final Runnable task, LocalDateTime localDateTime) {
 		//Schedules from now + duration in minutes
-		LOG.info("TASK {} HAS BEEN SCHEDULED AT TIME {}", task.getClass().getName(), localDateTime.toString());
+		LOG.info("TASK {} HAS BEEN SCHEDULED AT TIME {}", task.getClass().getName(), localDateTime);
 		executor.schedule(task, Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
 
 	}

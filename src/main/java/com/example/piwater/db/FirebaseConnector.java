@@ -26,10 +26,10 @@ public class FirebaseConnector
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(credentials)
 				.build();
-		FirebaseApp.initializeApp(options); //TODO: only do this once at startup!
+		FirebaseApp.initializeApp(options);
 	}
 
-	public Firestore getFirestore() throws IOException {
+	public Firestore getFirestore() {
 
 		Firestore db = FirestoreClient.getFirestore();
 
@@ -42,7 +42,7 @@ public class FirebaseConnector
 	public void addDataToFirestore(WaterInput waterInput) throws IOException, ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 		DocumentReference docRef = db.collection("waterings").document();
-		// Add document data  with id "alovelace" using a hashmap
+
 		Map<String, Object> data = new HashMap<>();
 		data.put("startTime", waterInput.getStartDateAsLong());
 		data.put("duration", waterInput.getMinutesToWater());
