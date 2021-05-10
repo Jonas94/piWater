@@ -9,7 +9,6 @@ import org.springframework.stereotype.*;
 import java.time.*;
 import java.util.*;
 
-@EnableScheduling
 @Component
 public class Scheduler {
 
