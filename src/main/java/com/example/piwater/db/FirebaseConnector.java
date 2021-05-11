@@ -11,12 +11,16 @@ import org.springframework.core.io.*;
 import org.springframework.stereotype.*;
 
 import java.io.*;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
 
 @Repository
 public class FirebaseConnector
 {
+	public static final String START_TIME = "startTime";
+	public static final String DURATION = "duration";
+
 
 	public static void initializeFireStore() throws IOException {
 
@@ -39,18 +43,62 @@ public class FirebaseConnector
 	}
 
 
-	public void addDataToFirestore(WaterInput waterInput) throws IOException, ExecutionException, InterruptedException {
+	public void addDataToFirestore(WaterInput waterInput) throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
-		DocumentReference docRef = db.collection("waterings").document();
+		DocumentReference docRef = db.collection("watering").document(waterInput.getStartDate().toString());
 
 		Map<String, Object> data = new HashMap<>();
-		data.put("startTime", waterInput.getStartDateAsLong());
-		data.put("duration", waterInput.getMinutesToWater());
+		data.put(START_TIME, waterInput.getStartDateAsLong());
+		data.put(DURATION, waterInput.getMinutesToWater());
 		//asynchronously write data
 		ApiFuture<WriteResult> result = docRef.set(data);
 		// ...
 		// result.get() blocks on response
 		System.out.println("Update time : " + result.get().getUpdateTime());
 	}
+
+	public void findAllWaterings() throws ExecutionException, InterruptedException {
+		Firestore db = getFirestore();
+
+		ApiFuture<QuerySnapshot> query = db.collection("waterings").get();
+		// ...
+		// query.get() blocks on response
+		QuerySnapshot querySnapshot = query.get();
+		List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+		for (QueryDocumentSnapshot document : documents) {
+			System.out.println("id: " + document.getId());
+			System.out.println("startTime: " + document.getLong(START_TIME));
+			if (document.contains(DURATION)) {
+				System.out.println(DURATION+ ": " + document.getLong(DURATION));
+			}
+			System.out.println("");
+		}
+
+	}
+
+
+	public void findFutureWaterings() throws ExecutionException, InterruptedException {
+		Firestore db = getFirestore();
+
+
+		// Create a reference to the cities collection
+		CollectionReference waterings = db.collection("waterings");
+		// Create a query against the collection.
+		Query query = waterings.whereGreaterThanOrEqualTo(START_TIME, new Date().getTime());
+		// retrieve  query results asynchronously using query.get()
+		ApiFuture<QuerySnapshot> querySnapshot = query.get();
+
+		List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+		for (QueryDocumentSnapshot document : documents) {
+			System.out.println("id: " + document.getId());
+			System.out.println("startTime: " + document.getLong(START_TIME));
+			if (document.contains(DURATION)) {
+				System.out.println("Duration: " + document.getLong(DURATION));
+			}
+			System.out.println("");
+		}
+
+	}
+
 
 }

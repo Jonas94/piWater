@@ -36,6 +36,23 @@ public class WaterController {
 		return new ResponseEntity(result, HttpStatus.OK); //TODO: Make this json
 	}
 
+	@GetMapping("/getAllWaterings")
+	public RestResult getAllWaterings(){
+
+		waterService.getAllWaterings();
+
+		return new RestResult(200, "Found all waterings!");
+	}
+
+	@GetMapping("/getFutureWaterings")
+	public RestResult getFutureWaterings(){
+
+		waterService.getFutureWaterings();
+
+		return new RestResult(200, "Found future waterings!");
+	}
+
+
 	@GetMapping("/shutdown")
 	public RestResult shutdown(){
 		final GpioController gpio = GpioFactory.getInstance();

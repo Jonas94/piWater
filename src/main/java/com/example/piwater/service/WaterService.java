@@ -44,6 +44,35 @@ public class WaterService {
 		}
 	}
 
+
+	public void getAllWaterings() {
+
+
+		try {
+			firebaseConnector.findAllWaterings();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void getFutureWaterings() {
+
+
+		try {
+			firebaseConnector.findFutureWaterings();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public String changeState(boolean state) {
 		return waterSystem.changeState(state);
 	}
