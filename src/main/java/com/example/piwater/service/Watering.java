@@ -40,4 +40,14 @@ public class Watering {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Watering{" +
+				"startDate=" + startDate +
+				", stopDate=" + stopDate +
+				", duration=" + duration +
+				'}';
+	}
 }
