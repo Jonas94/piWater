@@ -21,14 +21,6 @@ public class WaterSystemMockImpl implements WaterSystem {
 
 	@Override
 	public String getState() {
-		FirebaseConnector firebaseConnector = new FirebaseConnector();
-		try {
-			firebaseConnector.addDataToFirestore(new WaterInput(5, LocalDateTime.now()));
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		return "Pin is on! (MOCKED)";
 	}
 

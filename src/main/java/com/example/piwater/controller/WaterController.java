@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class WaterController {
 
-	@Autowired
 	WaterService waterService;
+
+	public WaterController(WaterService waterService) {
+		this.waterService = waterService;
+	}
 
 	@GetMapping("/state")
 	public RestResult getState(){
