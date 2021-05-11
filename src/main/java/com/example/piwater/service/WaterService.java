@@ -10,6 +10,7 @@ import org.springframework.stereotype.*;
 
 import java.io.*;
 import java.time.*;
+import java.util.*;
 import java.util.concurrent.*;
 
 @Service
@@ -47,26 +48,28 @@ public class WaterService {
 	}
 
 
-	public void getAllWaterings() {
+	public List<Watering> getAllWaterings() {
 
 		try {
-			firebaseConnector.findAllWaterings();
+			return firebaseConnector.findAllWaterings();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		return new ArrayList<>();
 	}
 
-	public void getFutureWaterings() {
+	public List<Watering> getFutureWaterings() {
 
 		try {
-			firebaseConnector.findFutureWaterings();
+			return firebaseConnector.findFutureWaterings();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		return new ArrayList<>();
 	}
 
 	public String stopWatering() {

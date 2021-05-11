@@ -55,23 +55,19 @@ public class FirebaseConnector
 		log.info("Data written to firebase!");
 	}
 
-	public void findAllWaterings() throws ExecutionException, InterruptedException {
+	public List<Watering> findAllWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 
-		for(Watering watering: findWateringsWithQuery(db.collection(WATERING))){
-			System.out.println(watering.toString());
-		}
+		return findWateringsWithQuery(db.collection(WATERING));
 	}
 
-	public void findFutureWaterings() throws ExecutionException, InterruptedException {
+	public List<Watering> findFutureWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 
 		CollectionReference waterings = db.collection(WATERING);
 		Query query = waterings.whereGreaterThanOrEqualTo(START_TIME, new Date().getTime());
 
-		for(Watering watering: findWateringsWithQuery(query)){
-			System.out.println(watering.toString());
-		}
+		return findWateringsWithQuery(query);
 	}
 
 	public List<Watering> findWateringsWithQuery(Query query) throws ExecutionException, InterruptedException {

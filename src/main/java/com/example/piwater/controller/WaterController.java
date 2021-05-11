@@ -3,7 +3,6 @@ package com.example.piwater.controller;
 import com.example.piwater.exception.*;
 import com.example.piwater.service.*;
 import com.pi4j.io.gpio.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,17 +41,13 @@ public class WaterController {
 	@GetMapping("/getAllWaterings")
 	public RestResult getAllWaterings(){
 
-		waterService.getAllWaterings();
-
-		return new RestResult(200, "Found all waterings!");
+		return new RestResult(200, waterService.getAllWaterings());
 	}
 
 	@GetMapping("/getFutureWaterings")
 	public RestResult getFutureWaterings(){
 
-		waterService.getFutureWaterings();
-
-		return new RestResult(200, "Found future waterings!");
+		return new RestResult(200, waterService.getFutureWaterings());
 	}
 
 
