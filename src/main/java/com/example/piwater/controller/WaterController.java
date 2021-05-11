@@ -18,9 +18,9 @@ public class WaterController {
 		return new RestResult(200, waterService.getState());
 	}
 
-	@PostMapping("/state")
-	public RestResult setState(boolean state) {
-		return new RestResult(200, waterService.changeState(state));
+	@PostMapping("/stop")
+	public RestResult setState() {
+		return new RestResult(200, waterService.stopWatering());
 	}
 
 	@PostMapping("/enableWatering")

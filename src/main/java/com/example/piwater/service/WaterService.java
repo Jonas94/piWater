@@ -4,6 +4,7 @@ import com.example.piwater.db.*;
 import com.example.piwater.exception.*;
 import com.example.piwater.model.*;
 import com.example.piwater.scheduling.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -17,6 +18,7 @@ public class WaterService {
 	WaterSystem waterSystem;
 	Scheduler scheduler;
 	FirebaseConnector firebaseConnector;
+	private static final Logger log = LoggerFactory.getLogger(WaterService.class);
 
 	@Autowired
 	public WaterService(WaterSystem waterSystem, Scheduler scheduler, FirebaseConnector firebaseConnector) {
@@ -39,7 +41,7 @@ public class WaterService {
 			scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem,true), waterInput.getStartDate());
 			scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, false), waterInput.getStartDate().plusMinutes(waterInput.getMinutesToWater()));
 
-		} catch (IOException | ExecutionException | InterruptedException e) {
+		} catch (ExecutionException | InterruptedException e) {
 			//TODO: LOG ISSUE AND SHOW IT
 		}
 	}
@@ -47,11 +49,8 @@ public class WaterService {
 
 	public void getAllWaterings() {
 
-
 		try {
 			firebaseConnector.findAllWaterings();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -61,11 +60,8 @@ public class WaterService {
 
 	public void getFutureWaterings() {
 
-
 		try {
 			firebaseConnector.findFutureWaterings();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -73,9 +69,11 @@ public class WaterService {
 		}
 	}
 
-	public String changeState(boolean state) {
-		return waterSystem.changeState(state);
+	public String stopWatering() {
+		log.info("Manual stop triggered!");
+		return waterSystem.changeState(false);
 	}
+
 	public String getState() {
 		return waterSystem.getState();
 	}

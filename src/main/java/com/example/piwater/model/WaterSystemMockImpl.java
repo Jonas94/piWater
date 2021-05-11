@@ -24,8 +24,6 @@ public class WaterSystemMockImpl implements WaterSystem {
 		FirebaseConnector firebaseConnector = new FirebaseConnector();
 		try {
 			firebaseConnector.addDataToFirestore(new WaterInput(5, LocalDateTime.now()));
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

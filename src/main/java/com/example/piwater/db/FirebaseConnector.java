@@ -1,4 +1,5 @@
 package com.example.piwater.db;
+import com.example.piwater.scheduling.*;
 import com.example.piwater.service.*;
 import com.google.api.core.*;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -7,6 +8,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.*;
+import org.slf4j.*;
 import org.springframework.core.io.*;
 import org.springframework.stereotype.*;
 
@@ -79,7 +81,6 @@ public class FirebaseConnector
 
 	public void findFutureWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
-
 
 		// Create a reference to the cities collection
 		CollectionReference waterings = db.collection("waterings");
