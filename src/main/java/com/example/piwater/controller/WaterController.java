@@ -6,6 +6,8 @@ import com.pi4j.io.gpio.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+
 @RestController
 public class WaterController {
 
@@ -16,52 +18,52 @@ public class WaterController {
 	}
 
 	@GetMapping("/state")
-	public RestResult getState(){
-		return new RestResult(200, waterService.getState());
+	public ResponseEntity<RestResult> getState(){
+		return ResponseEntity.ok(new RestResult(waterService.getState()));
 	}
 
 	@PostMapping("/stop")
-	public RestResult setState() {
-		return new RestResult(200, waterService.stopWatering());
+	public ResponseEntity<RestResult> setState() {
+		return ResponseEntity.ok(new RestResult(waterService.stopWatering()));
 	}
 
 	@PostMapping("/enableWatering")
-	public ResponseEntity<String> enableWatering(WaterInput waterInput) {
+	public ResponseEntity<RestResult> enableWatering(WaterInput waterInput) {
 		try{
 			waterService.enableWateringForDuration(waterInput);
 		} catch (IsBusyException e) {
-			return new ResponseEntity("Water system is busy, please try later!", HttpStatus.OK); //TODO: Make this json
+			return ResponseEntity.ok(new RestResult("Water system is busy, please try later!"));
 		}
 
 		String result = "Watering scheduled at " + waterInput.getStartDate() + " for " + waterInput.getMinutesToWater() + " minutes";
 
-		return new ResponseEntity(result, HttpStatus.OK); //TODO: Make this json
+		return ResponseEntity.ok(new RestResult(result));
 	}
 
 	@GetMapping("/getAllWaterings")
-	public RestResult getAllWaterings(){
+	public ResponseEntity<List<Watering>> getAllWaterings(){
 
-		return new RestResult(200, waterService.getAllWaterings());
+		return ResponseEntity.ok(waterService.getAllWaterings());
 	}
 
 	@GetMapping("/getFutureWaterings")
-	public RestResult getFutureWaterings(){
+	public ResponseEntity<List<Watering>> getFutureWaterings(){
 
-		return new RestResult(200, waterService.getFutureWaterings());
+		return ResponseEntity.ok(waterService.getFutureWaterings());
 	}
 
 	@GetMapping("/getAllRecurringWaterings")
-	public RestResult getAllRecurringWaterings(){
+	public ResponseEntity<List<RecurringWatering>> getAllRecurringWaterings(){
 
-		return new RestResult(200, waterService.getAllRecurringWaterings());
+		return ResponseEntity.ok(waterService.getAllRecurringWaterings());
 	}
 
 	@GetMapping("/shutdown")
-	public RestResult shutdown(){
+	public ResponseEntity<RestResult> shutdown(){
 		final GpioController gpio = GpioFactory.getInstance();
 		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED");
 		gpio.shutdown();
 		gpio.unprovisionPin(pin);
-		return new RestResult(200, "Shutdown!");
+		return ResponseEntity.ok(new RestResult("Shutdown!"));
 	}
 }

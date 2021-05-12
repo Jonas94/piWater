@@ -3,19 +3,20 @@ package com.example.piwater.controller;
 import java.io.*;
 
 public class RestResult implements Serializable {
-	private int status;
-	private Object object;
+	private String message;
 
-	public RestResult(int status, Object object) {
-		this.status = status;
-		this.object = object;
+	public RestResult(String message) {
+		this.message = message;
 	}
 
-	public int getStatus() {
-		return status;
+	public RestResult() {
 	}
 
-	public Object getObject() {
-		return object;
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }
