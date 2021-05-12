@@ -7,9 +7,9 @@ public interface WaterSystem {
 
 	public boolean isBusy();
 
-	public String getState();
+	public WaterState getState();
 
-	public String changeState(boolean state);
+	public WaterState changeState(boolean state);
 
 	public GpioPinDigitalOutput getRelayPin();
 }

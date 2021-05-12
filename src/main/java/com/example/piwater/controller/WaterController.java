@@ -1,6 +1,7 @@
 package com.example.piwater.controller;
 
 import com.example.piwater.exception.*;
+import com.example.piwater.model.*;
 import com.example.piwater.service.*;
 import com.pi4j.io.gpio.*;
 import org.springframework.http.*;
@@ -18,13 +19,13 @@ public class WaterController {
 	}
 
 	@GetMapping("/state")
-	public ResponseEntity<RestResult> getState(){
-		return ResponseEntity.ok(new RestResult(waterService.getState()));
+	public ResponseEntity<WaterState> getState(){
+		return ResponseEntity.ok(waterService.getState());
 	}
 
 	@PostMapping("/stop")
-	public ResponseEntity<RestResult> setState() {
-		return ResponseEntity.ok(new RestResult(waterService.stopWatering()));
+	public ResponseEntity<WaterState> setState() {
+		return ResponseEntity.ok(waterService.stopWatering());
 	}
 
 	@PostMapping("/enableWatering")

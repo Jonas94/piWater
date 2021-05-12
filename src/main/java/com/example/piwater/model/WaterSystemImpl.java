@@ -15,28 +15,21 @@ public class WaterSystemImpl implements WaterSystem {
 	}
 
 	@Override
-	public String getState() {
+	public WaterState getState() {
 		final GpioPinDigitalOutput gpioPin = getRelayPin();
 
-		boolean state = gpioPin.isHigh();
-		String result;
-		if (state) {
-			result = "Pin is on!";
-		} else {
-			result = "Pin is off :(";
-		}
-		return result;
+		return new WaterState(gpioPin.isHigh());
 	}
 
 	@Override
-	public String changeState(boolean state) {
+	public WaterState changeState(boolean state) {
 		final GpioPinDigitalOutput gpioPin = getRelayPin();
 		if (state) {
 			gpioPin.high();
 		} else {
 			gpioPin.low();
 		}
-		return getState();
+		return new WaterState(state);
 	}
 
 	@Override

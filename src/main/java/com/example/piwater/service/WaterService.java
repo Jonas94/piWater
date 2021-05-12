@@ -78,12 +78,12 @@ public class WaterService {
 	}
 
 
-	public String stopWatering() {
+	public WaterState stopWatering() {
 		log.info("Manual stop triggered!");
 		return waterSystem.changeState(false);
 	}
 
-	public String getState() {
+	public WaterState getState() {
 		return waterSystem.getState();
 	}
 

@@ -20,13 +20,13 @@ public class WaterSystemMockImpl implements WaterSystem {
 	}
 
 	@Override
-	public String getState() {
-		return "Pin is on! (MOCKED)";
+	public WaterState getState() {
+		return new WaterState(true);
 	}
 
 	@Override
-	public String changeState(boolean state) {
-		return "State is changed (MOCKED)!";
+	public WaterState changeState(boolean state) {
+		return new WaterState(state);
 	}
 
 	@Override
