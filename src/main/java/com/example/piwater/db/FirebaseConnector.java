@@ -42,7 +42,7 @@ public class FirebaseConnector
 	}
 
 
-	public void addDataToFirestore(WaterInput waterInput) throws ExecutionException, InterruptedException {
+	public void addDataToFirestore(WaterInput waterInput) {
 		Firestore db = getFirestore();
 		DocumentReference docRef = db.collection(WATERING).document(waterInput.getStartDate().toString());
 
@@ -55,6 +55,30 @@ public class FirebaseConnector
 		log.info("Data written to firebase!");
 	}
 
+	public List<RecurringWatering> findRecurringWaterings() throws ExecutionException, InterruptedException {
+		Firestore db = getFirestore();
+
+		CollectionReference query = db.collection("recurringWatering");
+		List<RecurringWatering> recurringWaterings = new ArrayList<>();
+		ApiFuture<QuerySnapshot> querySnapshot = query.get();
+
+		List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+		for (QueryDocumentSnapshot document : documents) {
+			RecurringWatering recurringWatering = new RecurringWatering();
+			if (document.contains("active")) {
+				recurringWatering.setActive(document.getBoolean("active"));
+			}
+			if (document.contains("day")) {
+				recurringWatering.setDay((List<String>) document.get("day"));
+			}
+			if (document.contains("time")) {
+				recurringWatering.setTime((List<String>) document.get("time"));
+			}
+
+			recurringWaterings.add(recurringWatering);
+		}
+		return recurringWaterings;
+	}
 	public List<Watering> findAllWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 

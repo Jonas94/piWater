@@ -37,19 +37,14 @@ public class WaterService {
 			waterInput.setStartDate(LocalDateTime.now());
 		}
 
-		try {
-			firebaseConnector.addDataToFirestore(waterInput);
-			scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem,true), waterInput.getStartDate());
-			scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, false), waterInput.getStartDate().plusMinutes(waterInput.getMinutesToWater()));
+		firebaseConnector.addDataToFirestore(waterInput);
+		scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem,true), waterInput.getStartDate());
+		scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, false), waterInput.getStartDate().plusMinutes(waterInput.getMinutesToWater()));
 
-		} catch (ExecutionException | InterruptedException e) {
-			//TODO: LOG ISSUE AND SHOW IT
-		}
 	}
 
 
 	public List<Watering> getAllWaterings() {
-
 		try {
 			return firebaseConnector.findAllWaterings();
 		} catch (ExecutionException e) {
@@ -61,7 +56,6 @@ public class WaterService {
 	}
 
 	public List<Watering> getFutureWaterings() {
-
 		try {
 			return firebaseConnector.findFutureWaterings();
 		} catch (ExecutionException e) {
@@ -71,6 +65,18 @@ public class WaterService {
 		}
 		return new ArrayList<>();
 	}
+
+	public List<RecurringWatering> getAllRecurringWaterings() {
+		try {
+			return firebaseConnector.findRecurringWaterings();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
 
 	public String stopWatering() {
 		log.info("Manual stop triggered!");

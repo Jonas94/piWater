@@ -50,6 +50,11 @@ public class WaterController {
 		return new RestResult(200, waterService.getFutureWaterings());
 	}
 
+	@GetMapping("/getAllRecurringWaterings")
+	public RestResult getAllRecurringWaterings(){
+
+		return new RestResult(200, waterService.getAllRecurringWaterings());
+	}
 
 	@GetMapping("/shutdown")
 	public RestResult shutdown(){
