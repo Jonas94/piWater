@@ -8,7 +8,6 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
-import java.io.*;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -68,7 +67,19 @@ public class WaterService {
 
 	public List<RecurringWatering> getAllRecurringWaterings() {
 		try {
-			return firebaseConnector.findRecurringWaterings();
+			return firebaseConnector.findAllRecurringWaterings();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
+
+	public List<RecurringWatering> getActiveRecurringWaterings() {
+		try {
+			return firebaseConnector.findActiveRecurringWaterings();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

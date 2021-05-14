@@ -15,6 +15,8 @@ import org.springframework.stereotype.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 @Repository
 public class FirebaseConnector
@@ -22,6 +24,8 @@ public class FirebaseConnector
 	public static final String START_TIME = "startTime";
 	public static final String DURATION = "duration";
 	public static final String WATERING = "watering";
+	public static final String FROM = "from";
+	public static final String TO = "to";
 
 	private static final Logger log = LoggerFactory.getLogger(FirebaseConnector.class);
 
@@ -55,7 +59,7 @@ public class FirebaseConnector
 		log.info("Data written to firebase!");
 	}
 
-	public List<RecurringWatering> findRecurringWaterings() throws ExecutionException, InterruptedException {
+	public List<RecurringWatering> findAllRecurringWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 
 		CollectionReference query = db.collection("recurringWatering");
@@ -75,10 +79,60 @@ public class FirebaseConnector
 				recurringWatering.setTime((List<String>) document.get("time"));
 			}
 
+			if (document.contains(FROM)) {
+				recurringWatering.setFrom((Long) document.get(FROM));
+			}
+			if (document.contains(TO)) {
+				recurringWatering.setTo((Long) document.get(TO));
+			}
+
 			recurringWaterings.add(recurringWatering);
 		}
 		return recurringWaterings;
 	}
+
+	public List<RecurringWatering> findActiveRecurringWaterings() throws ExecutionException, InterruptedException {
+		Firestore db = getFirestore();
+
+		CollectionReference recurringWateringCollection = db.collection("recurringWatering");
+
+		Date date = new Date();
+		long now = date.getTime();
+		Query query = recurringWateringCollection.whereEqualTo("active", true);
+
+		List<RecurringWatering> recurringWaterings = new ArrayList<>();
+		ApiFuture<QuerySnapshot> querySnapshot = query.get();
+
+		List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+		for (QueryDocumentSnapshot document : documents) {
+			RecurringWatering recurringWatering = new RecurringWatering();
+			if (document.contains("active")) {
+				recurringWatering.setActive(document.getBoolean("active"));
+			}
+			if (document.contains("day")) {
+				recurringWatering.setDay((List<String>) document.get("day"));
+			}
+			if (document.contains("time")) {
+				recurringWatering.setTime((List<String>) document.get("time"));
+			}
+
+			if (document.contains("from")) {
+				recurringWatering.setFrom((Long) document.get(FROM));
+			}
+			if (document.contains("to")) {
+				recurringWatering.setTo((Long) document.get(TO));
+			}
+
+			recurringWaterings.add(recurringWatering);
+		}
+		return recurringWaterings.stream().filter(recurringWatering -> filterActiveRecurringWaterings(recurringWatering, now)).collect(Collectors.toList());
+	}
+
+	private boolean filterActiveRecurringWaterings(RecurringWatering recurringWatering, long now){
+		return recurringWatering.getFrom() <= now && recurringWatering.getTo() >= now;
+	}
+
+
 	public List<Watering> findAllWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 

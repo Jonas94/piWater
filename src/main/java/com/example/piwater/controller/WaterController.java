@@ -58,6 +58,11 @@ public class WaterController {
 
 		return ResponseEntity.ok(waterService.getAllRecurringWaterings());
 	}
+	@GetMapping("/getActiveRecurringWaterings")
+	public ResponseEntity<List<RecurringWatering>> getActiveRecurringWaterings(){
+
+		return ResponseEntity.ok(waterService.getActiveRecurringWaterings());
+	}
 
 	@GetMapping("/shutdown")
 	public ResponseEntity<RestResult> shutdown(){
