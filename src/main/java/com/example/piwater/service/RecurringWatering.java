@@ -9,6 +9,7 @@ public class RecurringWatering {
 	List<String> time;
 	long from;
 	long to;
+	int duration;
 
 	public boolean isActive() {
 		return active;
@@ -49,5 +50,13 @@ public class RecurringWatering {
 
 	public void setTo(long to) {
 		this.to = to;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 }

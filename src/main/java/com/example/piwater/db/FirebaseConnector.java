@@ -86,6 +86,10 @@ public class FirebaseConnector
 				recurringWatering.setTo((Long) document.get(TO));
 			}
 
+			if (document.contains(DURATION)) {
+				recurringWatering.setTo((Long) document.get(DURATION));
+			}
+
 			recurringWaterings.add(recurringWatering);
 		}
 		return recurringWaterings;
