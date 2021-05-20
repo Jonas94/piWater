@@ -20,6 +20,11 @@ public class PollFirestore {
 
 	FirebaseConnector firebaseConnector;
 
+	public PollFirestore(RecurringCheckState recurringCheckState, FirebaseConnector firebaseConnector) {
+		this.recurringCheckState = recurringCheckState;
+		this.firebaseConnector = firebaseConnector;
+	}
+
 	@Scheduled(fixedRateString = "${fixed.rate.in.milliseconds}")
 	public void pollFirebase() throws ExecutionException, InterruptedException {
 		//TODO: Poll firebase
@@ -43,9 +48,6 @@ public class PollFirestore {
 		Calendar latestCheckDateCal = Calendar.getInstance();
 		latestCheckDateCal.setTime(latestCheckDate);
 
-		System.out.println(latestCheckDateCal.get(Calendar.HOUR_OF_DAY));
-		System.out.println(latestCheckDateCal.get(Calendar.MINUTE));
-
 		List<RecurringWatering> recurringWateringsToDoRightNow = new ArrayList<>();
 
 		for (RecurringWatering recurringWatering : recurringWaterings) {
@@ -67,24 +69,31 @@ public class PollFirestore {
 				//TODO: Log something or send error
 			}
 			Calendar recurringWateringDate = Calendar.getInstance();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			for (Date date : parsedDates) {
 
 				recurringWateringDate.setTime(date);
-				recurringWateringDate.set(Calendar.DAY_OF_MONTH, latestCheckDateCal.get(Calendar.DAY_OF_MONTH));
-				recurringWateringDate.set(Calendar.MONTH, latestCheckDateCal.get(Calendar.MONTH));
-				recurringWateringDate.set(Calendar.YEAR, latestCheckDateCal.get(Calendar.YEAR));
+				recurringWateringDate.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
+				recurringWateringDate.set(Calendar.MONTH, now.get(Calendar.MONTH));
+				recurringWateringDate.set(Calendar.YEAR, now.get(Calendar.YEAR));
 
 
 				if (recurringWateringDate.after(latestCheckDateCal) && recurringWateringDate.before(now)) {
 
-					log.info("recurringWateringDate is before 'now' and  after latestcheckdate which means go for it");
+					log.info("recurringWateringDate {} is before 'now' ({}) and  after latestcheckdate {} which means go for it",
+					         formatter.format(recurringWateringDate.getTime()), formatter.format(nowDate), formatter.format(latestCheckDate));
 					recurringWateringsToDoRightNow.add(recurringWatering);
-
+				}
+				else{
+					log.info("recurringWateringDate {} 'now' ({}) latestcheckdate {} which means no",
+					         formatter.format(recurringWateringDate.getTime()), formatter.format(nowDate), formatter.format(latestCheckDate));
 				}
 
 			}
 		}
+
+		recurringCheckState.setLatestCheckTime(new Date().getTime());
 
 		return recurringWateringsToDoRightNow;
 	}
