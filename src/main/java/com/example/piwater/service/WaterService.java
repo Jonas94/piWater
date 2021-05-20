@@ -16,14 +16,14 @@ import java.util.concurrent.*;
 public class WaterService {
 
 	WaterSystem waterSystem;
-	Scheduler scheduler;
+	WaterScheduler waterScheduler;
 	FirebaseConnector firebaseConnector;
 	private static final Logger log = LoggerFactory.getLogger(WaterService.class);
 
 	@Autowired
-	public WaterService(WaterSystem waterSystem, Scheduler scheduler, FirebaseConnector firebaseConnector) {
+	public WaterService(WaterSystem waterSystem, WaterScheduler waterScheduler, FirebaseConnector firebaseConnector) {
 		this.waterSystem = waterSystem;
-		this.scheduler = scheduler;
+		this.waterScheduler = waterScheduler;
 		this.firebaseConnector = firebaseConnector;
 	}
 
@@ -37,8 +37,8 @@ public class WaterService {
 		}
 
 		firebaseConnector.addDataToFirestore(waterInput);
-		scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem,true), waterInput.getStartDate());
-		scheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, false), waterInput.getStartDate().plusMinutes(waterInput.getMinutesToWater()));
+		waterScheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, true), waterInput.getStartDate());
+		waterScheduler.scheduleActivityWithDate(new ChangeStateTask(waterSystem, false), waterInput.getStartDate().plusMinutes(waterInput.getMinutesToWater()));
 
 	}
 

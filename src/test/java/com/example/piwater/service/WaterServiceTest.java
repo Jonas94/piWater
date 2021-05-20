@@ -23,7 +23,7 @@ public class WaterServiceTest {
 
 
 	@Mock
-	Scheduler scheduler;
+	WaterScheduler waterScheduler;
 
 
 	@InjectMocks
@@ -39,6 +39,6 @@ public class WaterServiceTest {
 
 
 		waterService.enableWateringForDuration(waterInput);
-		verify(scheduler, times(2)).scheduleActivityWithDate(any(), any());
+		verify(waterScheduler, times(2)).scheduleActivityWithDate(any(), any());
 	}
 }
