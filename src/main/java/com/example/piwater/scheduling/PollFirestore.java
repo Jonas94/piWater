@@ -31,7 +31,6 @@ public class PollFirestore {
 
 	@Scheduled(fixedRateString = "${fixed.rate.in.milliseconds}")
 	public void pollFirebase() throws ExecutionException, InterruptedException {
-		//TODO: Poll firebase
 		log.info("Polling firebase to find scheduled tasks");
 
 		List<RecurringWatering> recurringWaterings = firebaseConnector.findActiveRecurringWaterings();
@@ -66,8 +65,16 @@ public class PollFirestore {
 			SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
 			List<Date> parsedDates = new ArrayList<>();
 
+
+			List<String> days = recurringWatering.getDays();
+
+			if(!days.contains(Weekday.valueOf(now.get(Calendar.DAY_OF_WEEK)).toString().toLowerCase())){
+				continue; //No run today
+			}
+
+
 			try {
-				List<String> plannedTimestamps = recurringWatering.getTime();
+				List<String> plannedTimestamps = recurringWatering.getTimes();
 
 				for (String plannedTimestamp : plannedTimestamps) {
 					Date recurringTime = parser.parse(plannedTimestamp);

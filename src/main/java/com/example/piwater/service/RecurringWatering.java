@@ -5,8 +5,8 @@ import java.util.*;
 public class RecurringWatering {
 
 	boolean active;
-	List<String> day;
-	List<String> time;
+	List<String> days;
+	List<String> times;
 	long from;
 	long to;
 	int duration;
@@ -20,20 +20,20 @@ public class RecurringWatering {
 	}
 
 
-	public List<String> getDay() {
-		return day;
+	public List<String> getDays() {
+		return days;
 	}
 
-	public void setDay(List day) {
-		this.day = day;
+	public void setDays(List days) {
+		this.days = days;
 	}
 
-	public List<String> getTime() {
-		return time;
+	public List<String> getTimes() {
+		return times;
 	}
 
-	public void setTime(List time) {
-		this.time = time;
+	public void setTimes(List times) {
+		this.times = times;
 	}
 
 	public long getFrom() {

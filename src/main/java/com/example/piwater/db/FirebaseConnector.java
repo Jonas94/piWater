@@ -1,5 +1,4 @@
 package com.example.piwater.db;
-import com.example.piwater.scheduling.*;
 import com.example.piwater.service.*;
 import com.google.api.core.*;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
 import java.util.stream.*;
 
 @Repository
@@ -73,10 +71,10 @@ public class FirebaseConnector
 				recurringWatering.setActive(document.getBoolean("active"));
 			}
 			if (document.contains("day")) {
-				recurringWatering.setDay((List<String>) document.get("day"));
+				recurringWatering.setDays((List<String>) document.get("day"));
 			}
 			if (document.contains("time")) {
-				recurringWatering.setTime((List<String>) document.get("time"));
+				recurringWatering.setTimes((List<String>) document.get("time"));
 			}
 
 			if (document.contains(FROM)) {
@@ -114,10 +112,10 @@ public class FirebaseConnector
 				recurringWatering.setActive(document.getBoolean("active"));
 			}
 			if (document.contains("day")) {
-				recurringWatering.setDay((List<String>) document.get("day"));
+				recurringWatering.setDays((List<String>) document.get("day"));
 			}
 			if (document.contains("time")) {
-				recurringWatering.setTime((List<String>) document.get("time"));
+				recurringWatering.setTimes((List<String>) document.get("time"));
 			}
 
 			if (document.contains("from")) {
