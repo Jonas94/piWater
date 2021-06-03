@@ -42,7 +42,7 @@ public class PollFirestoreTest {
 		List<String> times = new ArrayList<>();
 		times.add("16:00");
 
-		recurringWatering.setTimes(times);
+		recurringWatering.setTime("16:00");
 
 		recurringWateringList.add(recurringWatering);
 
@@ -63,9 +63,7 @@ public class PollFirestoreTest {
 
 		recurringWatering.setDays(days);
 
-		List<String> times = new ArrayList<>();
-		times.add("16:00");
-		recurringWatering.setTimes(times);
+		recurringWatering.setTime("16:00");
 
 		recurringWateringList.add(recurringWatering);
 
@@ -87,10 +85,8 @@ public class PollFirestoreTest {
 
 		recurringWatering.setDays(days);
 
-		List<String> times = new ArrayList<>();
-		times.add("16:00");
+		recurringWatering.setTime("16:00");
 
-		recurringWatering.setTimes(times);
 
 		recurringWateringList.add(recurringWatering);
 

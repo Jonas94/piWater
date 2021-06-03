@@ -39,7 +39,7 @@ public class PollFirestore {
 		                                                                                                new Date(recurringCheckState.getLatestCheckTime()), new Date());
 
 		if(!recurringWateringsToDoRightNow.isEmpty()){
-
+			log.info("found some stuff {}", recurringWateringsToDoRightNow);
 			for(RecurringWatering recurringWatering : recurringWateringsToDoRightNow) {
 				//Currently only one watering is supported at the time, but could be useful in the future
 				try {
@@ -74,12 +74,10 @@ public class PollFirestore {
 
 
 			try {
-				List<String> plannedTimestamps = recurringWatering.getTimes();
+				String plannedTimestamp = recurringWatering.getTime();
 
-				for (String plannedTimestamp : plannedTimestamps) {
 					Date recurringTime = parser.parse(plannedTimestamp);
 					parsedDates.add(recurringTime);
-				}
 
 			} catch (ParseException e) {
 				log.info("Was not able to parse date", e);

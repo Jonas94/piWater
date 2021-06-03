@@ -10,7 +10,7 @@ public class ChangeStateTask implements Runnable {
 
 	private WaterSystem waterSystem;
 
-	@Autowired
+	@Autowired //TODO: remove?
 	public ChangeStateTask(@Qualifier("waterSystem")WaterSystem waterSystem, boolean newState) {
 		this.waterSystem = waterSystem;
 		this.newState = newState;
