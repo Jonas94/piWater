@@ -4,12 +4,19 @@ import java.util.*;
 
 public class RecurringWatering {
 
+	String id;
 	boolean active;
 	List<String> days;
-	List<String> times;
-	long from;
-	long to;
+	String time;
 	int duration;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public boolean isActive() {
 		return active;
@@ -28,28 +35,12 @@ public class RecurringWatering {
 		this.days = days;
 	}
 
-	public List<String> getTimes() {
-		return times;
+	public String getTime() {
+		return time;
 	}
 
-	public void setTimes(List times) {
-		this.times = times;
-	}
-
-	public long getFrom() {
-		return from;
-	}
-
-	public void setFrom(long from) {
-		this.from = from;
-	}
-
-	public long getTo() {
-		return to;
-	}
-
-	public void setTo(long to) {
-		this.to = to;
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	public int getDuration() {

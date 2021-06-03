@@ -65,6 +65,11 @@ public class WaterService {
 		return new ArrayList<>();
 	}
 
+	public void saveRecurringWater(RecurringWatering recurringWatering) {
+		firebaseConnector.updateRecurringWateringToFirestore(recurringWatering);
+	}
+
+
 	public List<RecurringWatering> getAllRecurringWaterings() {
 		try {
 			return firebaseConnector.findAllRecurringWaterings();

@@ -54,6 +54,25 @@ public class FirebaseConnector
 		//asynchronously write data
 		ApiFuture<WriteResult> result = docRef.set(data);
 
+		log.info("Added watering to firestore!");
+	}
+
+	public void updateRecurringWateringToFirestore(RecurringWatering recurringWatering) {
+		Firestore db = getFirestore();
+		DocumentReference docRef = db.collection("recurringWatering").document(recurringWatering.getId());
+
+		Map<String, Object> data = new HashMap<>();
+		data.put("day", recurringWatering.getDays());
+		data.put("time", recurringWatering.getTime());
+		data.put(DURATION, recurringWatering.getDuration());
+		data.put("active", recurringWatering.isActive());
+
+		ApiFuture<WriteResult> result = docRef.set(data, SetOptions.merge());
+
+
+
+
+
 		log.info("Data written to firebase!");
 	}
 
@@ -67,6 +86,10 @@ public class FirebaseConnector
 		List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
 		for (QueryDocumentSnapshot document : documents) {
 			RecurringWatering recurringWatering = new RecurringWatering();
+
+
+				recurringWatering.setId(document.getId());
+
 			if (document.contains("active")) {
 				recurringWatering.setActive(document.getBoolean("active"));
 			}
@@ -74,18 +97,12 @@ public class FirebaseConnector
 				recurringWatering.setDays((List<String>) document.get("day"));
 			}
 			if (document.contains("time")) {
-				recurringWatering.setTimes((List<String>) document.get("time"));
+				recurringWatering.setTime((String) document.get("time"));
 			}
 
-			if (document.contains(FROM)) {
-				recurringWatering.setFrom((Long) document.get(FROM));
-			}
-			if (document.contains(TO)) {
-				recurringWatering.setTo((Long) document.get(TO));
-			}
 
 			if (document.contains(DURATION)) {
-				recurringWatering.setTo((Long) document.get(DURATION));
+				recurringWatering.setDuration(Integer.parseInt(String.valueOf(document.get(DURATION))));
 			}
 
 			recurringWaterings.add(recurringWatering);
@@ -115,23 +132,17 @@ public class FirebaseConnector
 				recurringWatering.setDays((List<String>) document.get("day"));
 			}
 			if (document.contains("time")) {
-				recurringWatering.setTimes((List<String>) document.get("time"));
+				recurringWatering.setTime((String) document.get("time"));
 			}
 
-			if (document.contains("from")) {
-				recurringWatering.setFrom((Long) document.get(FROM));
+			if (document.contains(DURATION)) {
+				recurringWatering.setDuration(Integer.parseInt(String.valueOf(document.get(DURATION))));
 			}
-			if (document.contains("to")) {
-				recurringWatering.setTo((Long) document.get(TO));
-			}
+
 
 			recurringWaterings.add(recurringWatering);
 		}
-		return recurringWaterings.stream().filter(recurringWatering -> filterActiveRecurringWaterings(recurringWatering, now)).collect(Collectors.toList());
-	}
-
-	private boolean filterActiveRecurringWaterings(RecurringWatering recurringWatering, long now){
-		return recurringWatering.getFrom() <= now && recurringWatering.getTo() >= now;
+		return recurringWaterings;
 	}
 
 

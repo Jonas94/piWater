@@ -58,6 +58,13 @@ public class WaterController {
 
 		return ResponseEntity.ok(waterService.getAllRecurringWaterings());
 	}
+
+	@PostMapping("/saveRecurringWatering")
+	public ResponseEntity<String> saveRecurringWaterings(RecurringWatering recurringWatering){
+		waterService.saveRecurringWater(recurringWatering);
+		return ResponseEntity.ok("Ok!");
+	}
+
 	@GetMapping("/getActiveRecurringWaterings")
 	public ResponseEntity<List<RecurringWatering>> getActiveRecurringWaterings(){
 
