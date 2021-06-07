@@ -14,6 +14,8 @@ import java.util.concurrent.*;
 @ConditionalOnProperty(name = "gpio.mock", havingValue = "true")
 public class WaterSystemMockImpl implements WaterSystem {
 
+	boolean state = false;
+
 	@Override
 	public boolean isBusy() {
 		return false;
@@ -21,11 +23,12 @@ public class WaterSystemMockImpl implements WaterSystem {
 
 	@Override
 	public WaterState getState() {
-		return new WaterState(true);
+		return new WaterState(state);
 	}
 
 	@Override
 	public WaterState changeState(boolean state) {
+		this.state = state;
 		return new WaterState(state);
 	}
 

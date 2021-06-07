@@ -25,7 +25,11 @@ public class WaterInput {
 	}
 
 	public long getStartDateAsLong(){
-		return startDate.toInstant(ZoneOffset.UTC).toEpochMilli();
+		return startDate.atZone(ZoneId.of("Europe/Paris")).toInstant().toEpochMilli();
+	}
+
+	public long getStopDateAsLong() {
+		return startDate.plusMinutes(getMinutesToWater()).atZone(ZoneId.of("Europe/Paris")).toInstant().toEpochMilli();
 	}
 
 	public void setStartDate(LocalDateTime startDate) {

@@ -23,6 +23,12 @@ public class WaterController {
 		return ResponseEntity.ok(waterService.getState());
 	}
 
+	@GetMapping("/getCurrentWatering")
+	public ResponseEntity<Watering> getCurrentWatering() {
+		return ResponseEntity.ok(waterService.getCurrentWatering());
+	}
+
+
 	@PostMapping("/stop")
 	public ResponseEntity<WaterState> setState() {
 		return ResponseEntity.ok(waterService.stopWatering());

@@ -11,6 +11,7 @@ import org.springframework.stereotype.*;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.*;
 
 @Service
 public class WaterService {
@@ -46,9 +47,7 @@ public class WaterService {
 	public List<Watering> getAllWaterings() {
 		try {
 			return firebaseConnector.findAllWaterings();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (ExecutionException | InterruptedException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
@@ -98,6 +97,24 @@ public class WaterService {
 		log.info("Manual stop triggered!");
 		return waterSystem.changeState(false);
 	}
+
+	public Watering getCurrentWatering() {
+		List<Watering> possiblyOngoingWaterings;
+		List<Watering> ongoingWaterings = new ArrayList<>();
+		try {
+			possiblyOngoingWaterings = firebaseConnector.findPossiblyOngoingWaterings();
+			ongoingWaterings = possiblyOngoingWaterings.stream().filter(watering -> watering.startDate<= new Date().getTime()).collect(Collectors.toList());
+
+		} catch (ExecutionException | InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if(ongoingWaterings.isEmpty() || !getState().isOn()){
+			return null;
+		}
+		return ongoingWaterings.get(0);
+	}
+
 
 	public WaterState getState() {
 		return waterSystem.getState();

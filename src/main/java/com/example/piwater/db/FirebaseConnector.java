@@ -20,6 +20,8 @@ import java.util.stream.*;
 public class FirebaseConnector
 {
 	public static final String START_TIME = "startTime";
+	public static final String STOP_TIME = "stopTime";
+
 	public static final String DURATION = "duration";
 	public static final String WATERING = "watering";
 	public static final String FROM = "from";
@@ -50,6 +52,8 @@ public class FirebaseConnector
 
 		Map<String, Object> data = new HashMap<>();
 		data.put(START_TIME, waterInput.getStartDateAsLong());
+		data.put(STOP_TIME, waterInput.getStopDateAsLong());
+
 		data.put(DURATION, waterInput.getMinutesToWater());
 		//asynchronously write data
 		ApiFuture<WriteResult> result = docRef.set(data);
@@ -152,6 +156,16 @@ public class FirebaseConnector
 		return findWateringsWithQuery(db.collection(WATERING));
 	}
 
+	public List<Watering> findPossiblyOngoingWaterings() throws ExecutionException, InterruptedException {
+		Firestore db = getFirestore();
+
+
+		CollectionReference waterings = db.collection(WATERING);
+		Query query = waterings.whereGreaterThanOrEqualTo(STOP_TIME, new Date().getTime());
+
+		return findWateringsWithQuery(query);
+	}
+
 	public List<Watering> findFutureWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 
@@ -171,6 +185,9 @@ public class FirebaseConnector
 			Watering watering = new Watering();
 			if (document.contains(START_TIME)) {
 				watering.setStartDate(document.getLong(START_TIME));
+			}
+			if (document.contains(STOP_TIME)) {
+				watering.setStopDate(document.getLong(STOP_TIME));
 			}
 			if (document.contains(DURATION)) {
 				watering.setDuration(Math.toIntExact(document.getLong(DURATION)));
