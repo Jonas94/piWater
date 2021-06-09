@@ -35,16 +35,16 @@ public class WaterController {
 	}
 
 	@PostMapping("/enableWatering")
-	public ResponseEntity<RestResult> enableWatering(WaterInput waterInput) {
+	public ResponseEntity<Object> enableWatering(WaterInput waterInput) {
 		try{
 			waterService.enableWateringForDuration(waterInput);
 		} catch (IsBusyException e) {
 			return ResponseEntity.ok(new RestResult("Water system is busy, please try later!"));
 		}
 
-		String result = "Watering scheduled at " + waterInput.getStartDate() + " for " + waterInput.getMinutesToWater() + " minutes";
+		//String result = "Watering scheduled at " + waterInput.getStartDate() + " for " + waterInput.getMinutesToWater() + " minutes";
 
-		return ResponseEntity.ok(new RestResult(result));
+		return ResponseEntity.ok(new EnableWateringResponse(waterInput.getStartDateAsLong(), waterInput.getMinutesToWater()));
 	}
 
 	@GetMapping("/getAllWaterings")
