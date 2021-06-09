@@ -153,7 +153,7 @@ public class FirebaseConnector
 	public List<Watering> findAllWaterings() throws ExecutionException, InterruptedException {
 		Firestore db = getFirestore();
 
-		return findWateringsWithQuery(db.collection(WATERING));
+		return findWateringsWithQuery(db.collection(WATERING).orderBy(START_TIME, Query.Direction.DESCENDING).limit(10));
 	}
 
 	public List<Watering> findPossiblyOngoingWaterings() throws ExecutionException, InterruptedException {
