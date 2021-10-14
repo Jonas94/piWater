@@ -8,6 +8,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.*;
 import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.*;
 import org.springframework.stereotype.*;
 
@@ -17,11 +19,15 @@ import java.util.concurrent.*;
 import java.util.stream.*;
 
 @Repository
+//@ConditionalOnProperty(name = "gpio.mock", havingValue = "false", matchIfMissing = true)
 public class FirebaseConnector
 {
+
+	@Value("${firebaseMock.enable}")
+	private static boolean firebaseMockEnabled;
+
 	public static final String START_TIME = "startTime";
 	public static final String STOP_TIME = "stopTime";
-
 	public static final String DURATION = "duration";
 	public static final String WATERING = "watering";
 	public static final String FROM = "from";
@@ -31,14 +37,15 @@ public class FirebaseConnector
 
 
 	public static void initializeFireStore() throws IOException {
-
-		ClassPathResource resource = new ClassPathResource("waterbutler-7b556-cac4931051f1.json");
-		InputStream inputStream = resource.getInputStream();
-		GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
-		FirebaseOptions options = new FirebaseOptions.Builder()
-				.setCredentials(credentials)
-				.build();
-		FirebaseApp.initializeApp(options);
+		if(firebaseMockEnabled) {
+			ClassPathResource resource = new ClassPathResource("waterbutler-7b556-cac4931051f1.json");
+			InputStream inputStream = resource.getInputStream();
+			GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
+			FirebaseOptions options = new FirebaseOptions.Builder()
+					.setCredentials(credentials)
+					.build();
+			FirebaseApp.initializeApp(options);
+		}
 	}
 
 	public Firestore getFirestore() {
@@ -72,9 +79,6 @@ public class FirebaseConnector
 		data.put("active", recurringWatering.isActive());
 
 		ApiFuture<WriteResult> result = docRef.set(data, SetOptions.merge());
-
-
-
 
 
 		log.info("Data written to firebase!");
