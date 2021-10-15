@@ -19,41 +19,45 @@ import java.util.*;
 @ConfigurationProperties(prefix = "gpio") //TODO: Needed?
 public class InitializeSetup implements InitializingBean {
 
-	private static final Logger LOG = LoggerFactory.getLogger(InitializeSetup.class);
-	@Value("${gpio.enable}")
-	private boolean gpioEnabled;
+    private static final Logger LOG = LoggerFactory.getLogger(InitializeSetup.class);
+    @Value("${gpio.enable}")
+    private boolean gpioEnabled;
 
-	private RecurringCheckState recurringCheckState;
+    @Value("${firebase.enable}")
+    private boolean firebaseEnabled;
 
-	public InitializeSetup(RecurringCheckState recurringCheckState) {
-		this.recurringCheckState = recurringCheckState;
-	}
+    private RecurringCheckState recurringCheckState;
 
-	@Override
-	public void afterPropertiesSet() throws IOException {
+    public InitializeSetup(RecurringCheckState recurringCheckState) {
+        this.recurringCheckState = recurringCheckState;
+    }
 
-		if(gpioEnabled) {
-			LOG.info("Will setup GPIO");
-			setupGPIO();
-			LOG.info("GPIO is now setup!");
-		}
-		else {
-			LOG.info("Gpio not set up, property disabled");
-		}
+    @Override
+    public void afterPropertiesSet() throws IOException {
 
-		recurringCheckState.setLatestCheckTime(new Date().getTime());
+        if (gpioEnabled) {
+            LOG.info("Will setup GPIO");
+            setupGPIO();
+            LOG.info("GPIO is now setup!");
+        } else {
+            LOG.info("Gpio not set up, property disabled");
+        }
 
-		FirebaseConnector.initializeFireStore();
-	}
+        recurringCheckState.setLatestCheckTime(new Date().getTime());
 
-	private void setupGPIO(){
-		final GpioController gpio = GpioFactory.getInstance();
-		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "relayPin");
-		pin.setShutdownOptions(true, PinState.LOW);
-	}
+        if (firebaseEnabled) {
+            FirebaseConnector.initializeFireStore();
+        }
+    }
 
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer pspc() {
-		return new PropertySourcesPlaceholderConfigurer();
-	}
+    private void setupGPIO() {
+        final GpioController gpio = GpioFactory.getInstance();
+        final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "relayPin");
+        pin.setShutdownOptions(true, PinState.LOW);
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer pspc() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 }
