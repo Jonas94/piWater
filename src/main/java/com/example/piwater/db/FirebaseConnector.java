@@ -9,7 +9,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.*;
 import org.slf4j.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.*;
 import org.springframework.stereotype.*;
 
@@ -26,6 +25,7 @@ public class FirebaseConnector {
     public static final String WATERING = "watering";
     public static final String FROM = "from";
     public static final String TO = "to";
+    public static final String RECURRING_WATERING = "recurringWatering";
 
     private static final Logger log = LoggerFactory.getLogger(FirebaseConnector.class);
 
@@ -61,7 +61,7 @@ public class FirebaseConnector {
 
     public void updateRecurringWateringToFirestore(RecurringWatering recurringWatering) {
         Firestore db = getFirestore();
-        DocumentReference docRef = db.collection("recurringWatering").document(recurringWatering.getId());
+        DocumentReference docRef = db.collection(RECURRING_WATERING).document(recurringWatering.getId());
 
         Map<String, Object> data = new HashMap<>();
         data.put("day", recurringWatering.getDays());
@@ -71,14 +71,13 @@ public class FirebaseConnector {
 
         ApiFuture<WriteResult> result = docRef.set(data, SetOptions.merge());
 
-
         log.info("Data written to firebase!");
     }
 
     public List<RecurringWatering> findAllRecurringWaterings() throws ExecutionException, InterruptedException {
         Firestore db = getFirestore();
 
-        CollectionReference query = db.collection("recurringWatering");
+        CollectionReference query = db.collection(RECURRING_WATERING);
         List<RecurringWatering> recurringWaterings = new ArrayList<>();
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
@@ -99,7 +98,6 @@ public class FirebaseConnector {
                 recurringWatering.setTime((String) document.get("time"));
             }
 
-
             if (document.contains(DURATION)) {
                 recurringWatering.setDuration(Integer.parseInt(String.valueOf(document.get(DURATION))));
             }
@@ -112,7 +110,7 @@ public class FirebaseConnector {
     public List<RecurringWatering> findActiveRecurringWaterings() throws ExecutionException, InterruptedException {
         Firestore db = getFirestore();
 
-        CollectionReference recurringWateringCollection = db.collection("recurringWatering");
+        CollectionReference recurringWateringCollection = db.collection(RECURRING_WATERING);
 
         Date date = new Date();
         long now = date.getTime();
@@ -138,7 +136,6 @@ public class FirebaseConnector {
                 recurringWatering.setDuration(Integer.parseInt(String.valueOf(document.get(DURATION))));
             }
 
-
             recurringWaterings.add(recurringWatering);
         }
         return recurringWaterings;
@@ -153,7 +150,6 @@ public class FirebaseConnector {
 
     public List<Watering> findPossiblyOngoingWaterings() throws ExecutionException, InterruptedException {
         Firestore db = getFirestore();
-
 
         CollectionReference waterings = db.collection(WATERING);
         Query query = waterings.whereGreaterThanOrEqualTo(STOP_TIME, new Date().getTime());
