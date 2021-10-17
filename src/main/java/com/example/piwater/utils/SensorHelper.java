@@ -1,5 +1,7 @@
 package com.example.piwater.utils;
 
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Component
 public class SensorHelper {
 
     /**
@@ -36,7 +39,7 @@ public class SensorHelper {
      * @return
      * @throws IOException
      */
-    public static List<String> getSensorNames() throws IOException {
+    public List<String> getSensorNames() throws IOException {
 
         File deviceFolder = new File(BASE_DIR);
 
@@ -55,59 +58,31 @@ public class SensorHelper {
         return names;
     }
 
-    /**
-     * Read the temperature value for the named sensor
-     *
-     * @param name
-     * @return
-     * @throws IOException
-     */
-    public static double getTemperatureForSensor(String name) throws IOException {
+    public double getTemperatureForSensor(String name) throws IOException {
         File deviceFile = new File(BASE_DIR + name + SENSOR_FILE);
 
         return readTemp(deviceFile);
     }
 
-    /**
-     * Read the temperature value from the w1_slave sensor file
-     *
-     * @param deviceFile
-     * @return
-     * @throws IOException
-     */
-    private static double readTemp(File deviceFile) throws IOException {
+    private double readTemp(File deviceFile) throws IOException {
         List<String> list = Files.readAllLines(deviceFile.toPath(), StandardCharsets.UTF_8);
 
         return parseTempFromLine(list.get(1));
     }
 
-    /**
-     * Extract the temperature value
-     *
-     * @param string the 2nd line from the w1_slave sensor file
-     * @return
-     */
-    private static double parseTempFromLine(String string) {
+    private double parseTempFromLine(String string) {
 
         String temp = string.split("t=")[1];
 
         return Double.valueOf(temp) / 1000d;
     }
 
-    /**
-     * Get the current temperature reading for all the named sensors
-     *
-     * @param sensorNames
-     * @return
-     * @throws IOException
-     */
-    public static List<Double> getTemperaturesForSensors(List<String> sensorNames) throws IOException {
-        List<Double> temps = new ArrayList<Double>();
+    public List<Double> getTemperaturesForSensors(List<String> sensorNames) throws IOException {
+        List<Double> temps = new ArrayList<>();
 
         for (String name : sensorNames) {
             temps.add(getTemperatureForSensor(name));
         }
-
         return temps;
     }
 

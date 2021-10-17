@@ -4,7 +4,7 @@ import com.pi4j.io.gpio.*;
 import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.stereotype.*;
 
-@Component
+@Service
 @ConditionalOnProperty(name = "gpio.enable", havingValue = "false")
 public class WaterSystemMockImpl implements WaterSystem {
 
