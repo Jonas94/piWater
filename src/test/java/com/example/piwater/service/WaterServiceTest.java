@@ -5,6 +5,8 @@ import com.example.piwater.exception.*;
 import com.example.piwater.model.*;
 import com.example.piwater.scheduling.*;
 
+import com.example.piwater.service.watering.WaterInput;
+import com.example.piwater.service.watering.WaterService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.*;
 import org.mockito.*;

@@ -1,7 +1,8 @@
 package com.example.piwater.controller;
 
-import com.example.piwater.service.TempService;
-import com.example.piwater.service.Watering;
+import com.example.piwater.service.temperature.TempService;
+import com.example.piwater.service.watering.Watering;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +22,15 @@ public class TempController {
     }
 
     @GetMapping("/current")
-    public ResponseEntity<Double> getState() throws IOException {
+    public ResponseEntity<Double> getCurrent() throws IOException {
         return ResponseEntity.ok(tempService.getCurrentTemperature());
     }
 
     @GetMapping("/historical")
     public ResponseEntity<Watering> getCurrentWatering() {
         //TODO: Implement
-        return ResponseEntity.ok().build();
+        throw new NotImplementedException();
+        //return ResponseEntity.ok().build();
     }
 
     @GetMapping("/sensors")

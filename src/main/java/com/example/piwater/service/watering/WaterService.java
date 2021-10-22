@@ -1,4 +1,4 @@
-package com.example.piwater.service;
+package com.example.piwater.service.watering;
 
 import com.example.piwater.db.*;
 import com.example.piwater.exception.*;
@@ -18,11 +18,11 @@ public class WaterService {
 
 	WaterSystem waterSystem;
 	WaterScheduler waterScheduler;
-	FirebaseConnector firebaseConnector;
+	FirebaseConnectorWatering firebaseConnector;
 	private static final Logger log = LoggerFactory.getLogger(WaterService.class);
 
 	@Autowired
-	public WaterService(WaterSystem waterSystem, WaterScheduler waterScheduler, FirebaseConnector firebaseConnector) {
+	public WaterService(WaterSystem waterSystem, WaterScheduler waterScheduler, FirebaseConnectorWatering firebaseConnector) {
 		this.waterSystem = waterSystem;
 		this.waterScheduler = waterScheduler;
 		this.firebaseConnector = firebaseConnector;

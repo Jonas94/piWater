@@ -1,4 +1,4 @@
-package com.example.piwater.service;
+package com.example.piwater.service.watering;
 
 public class Watering {
 

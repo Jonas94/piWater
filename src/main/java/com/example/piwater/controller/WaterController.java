@@ -2,7 +2,10 @@ package com.example.piwater.controller;
 
 import com.example.piwater.exception.*;
 import com.example.piwater.model.*;
-import com.example.piwater.service.*;
+import com.example.piwater.service.watering.RecurringWatering;
+import com.example.piwater.service.watering.WaterInput;
+import com.example.piwater.service.watering.WaterService;
+import com.example.piwater.service.watering.Watering;
 import com.pi4j.io.gpio.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;

@@ -3,7 +3,9 @@ package com.example.piwater.scheduling;
 import com.example.piwater.db.*;
 import com.example.piwater.exception.*;
 import com.example.piwater.model.*;
-import com.example.piwater.service.*;
+import com.example.piwater.service.watering.RecurringWatering;
+import com.example.piwater.service.watering.WaterInput;
+import com.example.piwater.service.watering.WaterService;
 import com.example.piwater.state.*;
 import org.slf4j.*;
 import org.springframework.scheduling.annotation.*;
@@ -20,10 +22,10 @@ public class PollFirestore {
 	private static final Logger log = LoggerFactory.getLogger(PollFirestore.class);
 
 	RecurringCheckState recurringCheckState;
-	FirebaseConnector firebaseConnector;
+	FirebaseConnectorWatering firebaseConnector;
 	WaterService waterService;
 
-	public PollFirestore(RecurringCheckState recurringCheckState, FirebaseConnector firebaseConnector, WaterService waterService) {
+	public PollFirestore(RecurringCheckState recurringCheckState, FirebaseConnectorWatering firebaseConnector, WaterService waterService) {
 		this.recurringCheckState = recurringCheckState;
 		this.firebaseConnector = firebaseConnector;
 		this.waterService = waterService;

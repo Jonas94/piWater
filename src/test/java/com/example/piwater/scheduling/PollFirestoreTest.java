@@ -1,7 +1,7 @@
 package com.example.piwater.scheduling;
 
 import com.example.piwater.db.*;
-import com.example.piwater.service.*;
+import com.example.piwater.service.watering.RecurringWatering;
 import com.example.piwater.state.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

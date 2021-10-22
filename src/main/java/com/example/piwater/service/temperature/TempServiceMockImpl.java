@@ -1,7 +1,6 @@
-package com.example.piwater.service;
+package com.example.piwater.service.temperature;
 
 import com.example.piwater.db.FirebaseConnector;
-import com.example.piwater.utils.SensorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

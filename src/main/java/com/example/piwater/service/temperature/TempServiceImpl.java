@@ -1,4 +1,4 @@
-package com.example.piwater.service;
+package com.example.piwater.service.temperature;
 
 import com.example.piwater.db.FirebaseConnector;
 import com.example.piwater.utils.SensorHelper;

@@ -1,4 +1,4 @@
-package com.example.piwater.service;
+package com.example.piwater.service.temperature;
 
 
 import java.io.IOException;
