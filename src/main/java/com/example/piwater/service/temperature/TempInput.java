@@ -11,6 +11,8 @@ public class TempInput {
     private double temperature;
     private String sensorId;
 
+    public TempInput() {
+    }
 
     public TempInput(LocalDateTime timestamp, double temperature, String sensorId) {
         this.timestamp = timestamp;

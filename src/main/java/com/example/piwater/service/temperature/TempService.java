@@ -8,4 +8,6 @@ public interface TempService {
 
     double getCurrentTemperature() throws IOException;
     List<String> getAllSensors() throws IOException;
+
+    void saveCurrentTemp() throws IOException;
 }

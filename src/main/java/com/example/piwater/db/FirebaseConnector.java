@@ -1,7 +1,5 @@
 package com.example.piwater.db;
 
-import com.example.piwater.service.*;
-import com.google.api.core.*;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
 
@@ -13,8 +11,6 @@ import org.springframework.core.io.*;
 import org.springframework.stereotype.*;
 
 import java.io.*;
-import java.util.*;
-import java.util.concurrent.*;
 
 @Repository
 public class FirebaseConnector {

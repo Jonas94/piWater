@@ -28,7 +28,7 @@ class WaterServiceTest {
     WaterScheduler waterScheduler;
 
     @Mock
-    FirebaseConnector firebaseConnector;
+    FirebaseConnectorWatering firebaseConnector;
 
     @InjectMocks
     WaterService waterService;

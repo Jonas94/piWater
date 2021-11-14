@@ -38,6 +38,13 @@ public class TempController {
         return ResponseEntity.ok(tempService.getAllSensors());
     }
 
+    @GetMapping("/save") //Temporary endpoint
+    public ResponseEntity<String> saveCurrentTemp() throws IOException {
+        tempService.saveCurrentTemp();
+
+        return ResponseEntity.ok("Det gick bra");
+    }
+
 
     //TODO: Forecast stuff
 
