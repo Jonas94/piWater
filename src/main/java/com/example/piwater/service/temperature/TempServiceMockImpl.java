@@ -1,6 +1,8 @@
 package com.example.piwater.service.temperature;
 
 import com.example.piwater.db.FirebaseConnectorTemperature;
+import com.example.piwater.model.Temperature;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,8 @@ public class TempServiceMockImpl implements TempService {
         this.firebaseConnector = firebaseConnector;
     }
 
-    public double getCurrentTemperature() {
-        return 99;
+    public Temperature getCurrentTemperature() {
+        return new Temperature(99.0, LocalDateTime.now(), "Mocked sensor #1");
     }
 
     public List<String> getAllSensors() throws IOException {

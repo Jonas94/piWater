@@ -1,7 +1,7 @@
 package com.example.piwater.service.temperature;
 
-import com.example.piwater.db.FirebaseConnector;
 import com.example.piwater.db.FirebaseConnectorTemperature;
+import com.example.piwater.model.Temperature;
 import com.example.piwater.utils.SensorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @ConditionalOnProperty(name = "raspberry.run", havingValue = "true", matchIfMissing = true)
-public class TempServiceImpl implements TempService{
+public class TempServiceImpl implements TempService {
 
     FirebaseConnectorTemperature firebaseConnector;
     SensorHelper sensorHelper;
@@ -29,8 +29,10 @@ public class TempServiceImpl implements TempService{
         this.sensorHelper = sensorHelper;
     }
 
-    public double getCurrentTemperature() throws IOException {
-        return sensorHelper.getTemperatureForSensor(sensorHelper.getSensorNames().get(0));
+    public Temperature getCurrentTemperature() throws IOException {
+        String sensorName = sensorHelper.getSensorNames().get(0);
+        double currentTemp = sensorHelper.getTemperatureForSensor(sensorName);
+        return new Temperature(currentTemp, LocalDateTime.now(), sensorName);
     }
 
     public List<String> getAllSensors() throws IOException {
@@ -40,10 +42,11 @@ public class TempServiceImpl implements TempService{
     @Scheduled(fixedRate = 900000)
     @Override
     public void saveCurrentTemp() throws IOException {
+        Temperature temperature = getCurrentTemperature();
         TempInput tempInput = new TempInput();
-        tempInput.setTemperature(getCurrentTemperature());
-        tempInput.setSensorId(getAllSensors().get(0));
-        tempInput.setTimestamp(LocalDateTime.now());
+        tempInput.setTemperature(temperature.getTemperatureInCelsius());
+        tempInput.setSensorId(temperature.getSensorId());
+        tempInput.setTimestamp(temperature.getTimestamp());
         firebaseConnector.addDataToFirestore(tempInput);
     }
 
