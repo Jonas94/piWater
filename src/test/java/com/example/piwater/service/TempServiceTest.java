@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +35,7 @@ class TempServiceTest {
     void testGetCurrentTemperature() throws IOException {
         when(sensorHelper.getSensorNames()).thenReturn(List.of(MOCKED_SENSOR));
         when(sensorHelper.getTemperatureForSensor(MOCKED_SENSOR)).thenReturn(99.0);
-        assertEquals(99, tempService.getCurrentTemperature());
+        assertEquals(99, tempService.getCurrentTemperature().getTemperatureInCelsius());
     }
 
     @Test

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +34,12 @@ public class TempServiceImpl implements TempService {
         String sensorName = sensorHelper.getSensorNames().get(0);
         double currentTemp = sensorHelper.getTemperatureForSensor(sensorName);
         return new Temperature(currentTemp, LocalDateTime.now(), sensorName);
+    }
+
+    @Override
+    public List<Temperature> getHistoricalTemperatures(LocalDateTime since) throws IOException {
+
+        return new ArrayList<>();
     }
 
     public List<String> getAllSensors() throws IOException {

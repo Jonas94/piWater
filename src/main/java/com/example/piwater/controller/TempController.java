@@ -2,15 +2,13 @@ package com.example.piwater.controller;
 
 import com.example.piwater.model.Temperature;
 import com.example.piwater.service.temperature.TempService;
-import com.example.piwater.service.watering.Watering;
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -29,11 +27,13 @@ public class TempController {
         return ResponseEntity.ok(tempService.getCurrentTemperature());
     }
 
-    @GetMapping("/historical")
-    public ResponseEntity<List<Temperature>> getHistoricalTemperatures() {
-        //TODO: Gather some requirements and implement
-        throw new NotImplementedException();
-        //return ResponseEntity.ok().build();
+    @GetMapping("/historical/{sinceDate}")
+    public ResponseEntity<List<Temperature>> getHistoricalTemperatures(@RequestParam(value = "sinceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                                   LocalDateTime sinceDate) throws IOException {
+        if (sinceDate == null) {
+            sinceDate = LocalDateTime.now().minusDays(5);
+        }
+        return ResponseEntity.ok(tempService.getHistoricalTemperatures(sinceDate));
     }
 
     @GetMapping("/sensors")

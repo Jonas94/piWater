@@ -30,6 +30,14 @@ public class TempServiceMockImpl implements TempService {
         return new Temperature(99.0, LocalDateTime.now(), "Mocked sensor #1");
     }
 
+    @Override
+    public List<Temperature> getHistoricalTemperatures(LocalDateTime since) throws IOException {
+        Temperature temp1 = new Temperature(55.0, LocalDateTime.now().minusDays(1), "Mocked sensor #1");
+        List<Temperature> list = new ArrayList<>();
+        list.add(temp1);
+        return list;
+    }
+
     public List<String> getAllSensors() throws IOException {
         return new ArrayList<>(List.of("mockedSensor1", "mockedSensor2"));
     }
