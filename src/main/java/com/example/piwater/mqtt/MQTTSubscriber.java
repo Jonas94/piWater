@@ -1,6 +1,10 @@
 package com.example.piwater.mqtt;
 
 import com.example.piwater.config.MQTTConfig;
+import com.example.piwater.model.MessageModel;
+import com.example.piwater.waterbrain.Brain;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
@@ -23,6 +27,9 @@ public class MQTTSubscriber extends MQTTConfig implements MqttCallback, MQTTSubs
 
     @Autowired
     MQTTPublisherBase publisher;
+
+    @Autowired
+    Brain brain;
 
     private static final Logger logger = LoggerFactory.getLogger(MQTTSubscriber.class);
 
@@ -48,6 +55,10 @@ public class MQTTSubscriber extends MQTTConfig implements MqttCallback, MQTTSubs
         System.out.println("***********************************************************************");
         System.out.println();
 
+        Gson gson = new Gson();
+        MessageModel model = gson.fromJson(message.toString(), MessageModel.class);
+
+        brain.handleMoistureInformationAndTakeAction(model.getSensors());
     }
 
     @Override

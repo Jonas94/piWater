@@ -11,6 +11,11 @@ public class WaterInput {
 	private LocalDateTime startDate;
 	private Date stopDate;
 
+	public WaterInput(int minutesToWater) {
+		this.minutesToWater = minutesToWater;
+		this.startDate = LocalDateTime.now();
+	}
+
 	public WaterInput(int minutesToWater, LocalDateTime startDate) {
 		this.minutesToWater = minutesToWater;
 		this.startDate = startDate;
