@@ -48,9 +48,6 @@ public class MQTTSubscriber extends MQTTConfig implements MqttCallback, MQTTSubs
         System.out.println("***********************************************************************");
         System.out.println();
 
-        publisher.publishMessage("Topic2", "hej!");
-
-
     }
 
     @Override
@@ -61,7 +58,7 @@ public class MQTTSubscriber extends MQTTConfig implements MqttCallback, MQTTSubs
     @Override
     public void subscribeMessage(String topic) {
         try {
-            this.mqttClient.subscribe(topic, this.QOS);
+            this.mqttClient.subscribe(topic, QOS);
         } catch (MqttException me) {
             me.printStackTrace();
         }
@@ -79,12 +76,12 @@ public class MQTTSubscriber extends MQTTConfig implements MqttCallback, MQTTSubs
     @Override
     protected void config(String broker, Integer port, boolean ssl, boolean withUserNamePass) {
 
-        String protocal = this.TCP;
+        String protocol = TCP;
         if (ssl) {
-            protocal = this.SSL;
+            protocol = SSL;
         }
 
-        this.brokerUrl = protocal + this.BROKER + COLON + port;
+        this.brokerUrl = protocol + BROKER + COLON + port;
         this.persistence = new MemoryPersistence();
         this.connectionOptions = new MqttConnectOptions();
 
@@ -93,10 +90,10 @@ public class MQTTSubscriber extends MQTTConfig implements MqttCallback, MQTTSubs
             this.connectionOptions.setCleanSession(true);
             if (withUserNamePass) {
                 if (PASSWORD != null) {
-                    this.connectionOptions.setPassword(this.PASSWORD.toCharArray());
+                    this.connectionOptions.setPassword(PASSWORD.toCharArray());
                 }
                 if (USERNAME != null) {
-                    this.connectionOptions.setUserName(this.USERNAME);
+                    this.connectionOptions.setUserName(USERNAME);
                 }
             }
             this.mqttClient.connect(this.connectionOptions);
@@ -107,15 +104,10 @@ public class MQTTSubscriber extends MQTTConfig implements MqttCallback, MQTTSubs
 
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.monirthought.config.MQTTConfig#config()
-     */
     @Override
     protected void config() {
 
-        this.brokerUrl = this.TCP + this.BROKER + COLON + this.port;
+        this.brokerUrl = TCP + BROKER + COLON + this.port;
         this.persistence = new MemoryPersistence();
         this.connectionOptions = new MqttConnectOptions();
         try {

@@ -15,7 +15,7 @@ public class MessageListener implements Runnable {
     @Override
     public void run() {
         while (true) {
-            subscriber.subscribeMessage("topic");
+            subscriber.subscribeMessage("topic1"); //TODO: Replace with proper stuff
         }
 
     }

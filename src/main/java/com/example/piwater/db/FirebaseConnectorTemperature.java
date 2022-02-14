@@ -58,7 +58,7 @@ public class FirebaseConnectorTemperature extends FirebaseConnector {
     }
 
     public List<Watering> findAllTemperatures() throws ExecutionException, InterruptedException {
-        Firestore db = getFirestore();
+        Firestore db = getFirestore(); //TODO: Fix this method, it will break.
 
         return findWateringsWithQuery(db.collection(TEMPERATURE).orderBy(TIME, Query.Direction.DESCENDING).limit(10));
     }
