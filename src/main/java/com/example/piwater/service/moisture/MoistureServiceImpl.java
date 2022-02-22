@@ -1,26 +1,24 @@
 package com.example.piwater.service.moisture;
 
 import com.example.piwater.db.FirebaseConnectorMoisture;
+import com.example.piwater.enums.MoistureSensors;
 import com.example.piwater.model.MessageModel;
 import com.example.piwater.model.Moisture;
-import com.example.piwater.model.Sensor;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Primary
 @Service
@@ -37,7 +35,9 @@ public class MoistureServiceImpl implements MoistureService {
     }
 
     public List<Moisture> getCurrentMoistureValues() {
-        return List.of(new Moisture(0.0, null, "1")); //TODO: REPLACE WITH CORRECT STUFF
+        return firebaseConnector.findLatestMoistureValues(Stream.of(MoistureSensors.values())
+                .map(Enum::name)
+                .collect(Collectors.toList()));
     }
 
     @Override

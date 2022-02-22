@@ -24,7 +24,7 @@ public class MoistureController {
     }
 
     @GetMapping("/current")
-    public ResponseEntity<Moisture> getCurrent() throws IOException {
-        return ResponseEntity.ok(moistureService.getCurrentMoistureValues().get(0));
+    public ResponseEntity<List<Moisture>> getCurrent() throws IOException {
+        return ResponseEntity.ok(moistureService.getCurrentMoistureValues());
     }
 }
