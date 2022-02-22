@@ -14,5 +14,5 @@ public interface MoistureService {
 
     List<Moisture> getHistoricalMoistureValues(LocalDateTime since) throws IOException;
 
-    void saveCurrentMoistureValue() throws IOException;
+    void saveCurrentMoistureValue(Moisture moisture) throws IOException;
 }

@@ -37,12 +37,12 @@ public class MoistureServiceMockImpl implements MoistureService {
     }
 
     @Override
-    public void saveCurrentMoistureValue() throws IOException {
+    public void saveCurrentMoistureValue(Moisture moisture) throws IOException {
         MoistureInput moistureInput = new MoistureInput();
         moistureInput.setMoisture(54.5);
         moistureInput.setSensorId("Mocked sensor #2");
         moistureInput.setTimestamp(LocalDateTime.now());
-        firebaseConnector.addDataToFirestore(moistureInput);
+      //  firebaseConnector.addDataToFirestore(moistureInput);
     }
 
 }
