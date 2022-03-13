@@ -1,0 +1,12 @@
+[Unit]
+Description= PiWater service
+
+[Service]
+WorkingDirectory=/home/pi/piWater
+ExecStart=sudo /bin/java -jar piWater-LATEST.jar
+Type=simple
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
