@@ -22,9 +22,9 @@ public class Brain {
     WaterService waterService;
     MoistureService moistureService;
 
-    @Value("${watering.threshold.value}")
+    @Value("${watering.default.threshold.value}")
     private double thresholdValue;
-    @Value("${watering.minutes.to.water}")
+    @Value("${watering.default.minutes.to.water}")
     private int minutesToWater;
 
     private static final Logger log = LoggerFactory.getLogger(Brain.class);
@@ -38,8 +38,9 @@ public class Brain {
     public void handleMoistureInformationAndTakeAction(List<Sensor> sensors) throws IOException {
         double totalMoistureValue = 0;
 
+        LocalDateTime now = LocalDateTime.now();
         for (Sensor sensor : sensors) {
-            moistureService.saveCurrentMoistureValue(new Moisture(sensor.getValue(), LocalDateTime.now(), sensor.getName()));
+            moistureService.saveCurrentMoistureValue(new Moisture(sensor.getValue(), now, sensor.getName()));
             totalMoistureValue += sensor.getValue();
         }
 

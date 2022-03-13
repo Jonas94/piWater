@@ -36,8 +36,10 @@ public class WaterController {
 		return ResponseEntity.ok(waterService.stopWatering());
 	}
 
-	@PostMapping("/enableWatering")
-	public ResponseEntity<Object> enableWatering(WaterInput waterInput) {
+	@PostMapping(path = "enableWatering",
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> enableWatering(@RequestBody WaterInput waterInput) {
 		try{
 			waterService.enableWateringForDuration(waterInput);
 		} catch (IsBusyException e) {
