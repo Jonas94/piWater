@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -35,7 +37,7 @@ public class FirebaseConnectorMoisture extends FirebaseConnector {
         DocumentReference docRef = db.collection(MOISTURE).document(moistureInput.getTimestamp().toString());
 
         Map<String, Object> data = new HashMap<>();
-        data.put(TIME, moistureInput.getTimestamp());
+        data.put(TIME, moistureInput.getDateAsLong());
         data.put(SENSOR, moistureInput.getSensorId());
         data.put(MOISTURE, moistureInput.getMoisture());
         //asynchronously write data
@@ -86,7 +88,7 @@ public class FirebaseConnectorMoisture extends FirebaseConnector {
         for (String sensorName : sensors) {
             try {
 
-                Query query = moistureRecords.whereEqualTo(NAME, sensorName).orderBy(TIME, Query.Direction.DESCENDING).limit(1);
+                Query query = moistureRecords.whereEqualTo(SENSOR, sensorName).orderBy(TIME, Query.Direction.DESCENDING).limit(1);
                 ApiFuture<QuerySnapshot> querySnapshot = query.get();
                 List<QueryDocumentSnapshot> documents = null;
                 documents = querySnapshot.get().getDocuments();
@@ -102,11 +104,11 @@ public class FirebaseConnectorMoisture extends FirebaseConnector {
                     if (document.contains(MOISTURE)) {
                         moistureValue = document.getDouble(MOISTURE);
                     }
-                    if (document.contains(NAME)) {
-                        name = document.getString(NAME);
+                    if (document.contains(SENSOR)) {
+                        name = document.getString(SENSOR);
                     }
                     if (document.contains(TIME)) {
-                        timestamp = Objects.requireNonNull(document.getTimestamp(TIME)).toSqlTimestamp().toLocalDateTime();
+                        timestamp = getLocalDateTimeFromLong(document.getLong(TIME));
                     }
 
                     moistureValues.add(new Moisture(moistureValue, timestamp, name));
@@ -121,6 +123,12 @@ public class FirebaseConnectorMoisture extends FirebaseConnector {
         }
         return moistureValues;
 
+    }
+
+
+    public LocalDateTime getLocalDateTimeFromLong(Long epochMillis) {
+        Instant instant = Instant.ofEpochMilli(epochMillis);
+        return instant.atZone(ZoneId.of("Europe/Paris")).toLocalDateTime();
     }
 
 

@@ -2,6 +2,7 @@ package com.example.piwater.service.moisture;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -22,6 +23,15 @@ public class MoistureInput {
 
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    public long getDateAsLong() {
+        return timestamp.atZone(ZoneId.of("Europe/Paris")).toInstant().toEpochMilli();
+    }
+
+    public void setDateAsLong(Long epochMillis) {
+        Instant instant = Instant.ofEpochMilli(epochMillis);
+        timestamp = instant.atZone(ZoneId.of("Europe/Paris")).toLocalDateTime();
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
