@@ -33,7 +33,7 @@ public class WaterService {
 			throw new IsBusyException("The watering system is busy! Try again later.");
 		}
 
-		if(waterInput.getStartDate().isBefore(LocalDateTime.now())){
+		if(waterInput.getStartDate() == null || waterInput.getStartDate().isBefore(LocalDateTime.now())){
 			waterInput.setStartDate(LocalDateTime.now());
 		}
 

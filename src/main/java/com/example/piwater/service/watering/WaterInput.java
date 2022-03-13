@@ -3,13 +3,14 @@ package com.example.piwater.service.watering;
 import org.springframework.format.annotation.*;
 
 import java.time.*;
-import java.util.*;
 
 public class WaterInput {
 	private int minutesToWater;
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime startDate;
-	private Date stopDate;
+
+	public WaterInput() {
+	}
 
 	public WaterInput(int minutesToWater) {
 		this.minutesToWater = minutesToWater;
@@ -19,6 +20,10 @@ public class WaterInput {
 	public WaterInput(int minutesToWater, LocalDateTime startDate) {
 		this.minutesToWater = minutesToWater;
 		this.startDate = startDate;
+	}
+
+	public void setMinutesToWater(int minutesToWater) {
+		this.minutesToWater = minutesToWater;
 	}
 
 	public int getMinutesToWater() {
