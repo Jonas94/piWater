@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@CrossOrigin
 @RestController
 public class WaterController {
 
@@ -87,4 +88,6 @@ public class WaterController {
 		gpio.unprovisionPin(pin);
 		return ResponseEntity.ok(new RestResult("Shutdown!"));
 	}
+
+
 }
