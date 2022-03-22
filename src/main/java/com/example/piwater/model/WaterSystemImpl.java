@@ -1,12 +1,21 @@
 package com.example.piwater.model;
 
 import com.pi4j.io.gpio.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.*;
 
 @Service
 @ConditionalOnProperty(name = "gpio.enable", havingValue = "true", matchIfMissing = true)
 public class WaterSystemImpl implements WaterSystem {
+
+    private final SimpMessagingTemplate websocket;
+
+    @Autowired
+    public WaterSystemImpl(SimpMessagingTemplate websocket) {
+        this.websocket = websocket;
+    }
 
     @Override
     public boolean isBusy() {
@@ -17,7 +26,6 @@ public class WaterSystemImpl implements WaterSystem {
     @Override
     public WaterState getState() {
         final GpioPinDigitalOutput gpioPin = getRelayPin();
-
         return new WaterState(gpioPin.isHigh());
     }
 
@@ -29,13 +37,15 @@ public class WaterSystemImpl implements WaterSystem {
         } else {
             gpioPin.low();
         }
-        return new WaterState(state);
+
+        WaterState waterState = new WaterState(state);
+        this.websocket.convertAndSend("/topic/message", waterState);
+        return waterState;
     }
 
     @Override
     public GpioPinDigitalOutput getRelayPin() {
         final GpioController gpio = GpioFactory.getInstance();
-        final GpioPinDigitalOutput gpioPin = (GpioPinDigitalOutput) gpio.getProvisionedPin(RaspiPin.GPIO_01);
-        return gpioPin;
+        return (GpioPinDigitalOutput) gpio.getProvisionedPin(RaspiPin.GPIO_01);
     }
 }
