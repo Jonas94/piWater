@@ -16,6 +16,9 @@ public class PollSensors {
     @Value("${messaging.outbound.sensor.topic}")
     private String sensorTopic;
 
+    @Value("${sensors.enable.polling}")
+    private boolean enablePollingSensors;
+
     @Autowired
     public PollSensors(JmsTemplate publisher) {
         this.jmsTemplate = publisher;
@@ -23,7 +26,9 @@ public class PollSensors {
 
     @Scheduled(fixedRateString = "${sensor.check.time}")
     public void pollSensors() {
-        log.info("Polling ESP32 to get current state of sensors on topic: {}", sensorTopic);
-        jmsTemplate.send(sensorTopic, session -> session.createTextMessage("on"));
+        if(enablePollingSensors) {
+            log.info("Polling ESP32 to get current state of sensors on topic: {}", sensorTopic);
+            jmsTemplate.send(sensorTopic, session -> session.createTextMessage("on"));
+        }
     }
 }
