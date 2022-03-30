@@ -8,5 +8,7 @@ public interface ConfigService {
 
     Config getCurrentConfig() throws IOException;
 
+    void reloadConfig();
+
     void saveConfig(Config config) throws IOException;
 }

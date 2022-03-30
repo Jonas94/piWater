@@ -33,4 +33,9 @@ public class ConfigController {
         return ResponseEntity.ok("Det gick bra");
     }
 
+    @GetMapping(path = "/reload")
+    public ResponseEntity<Object> reloadConfig() {
+        configService.reloadConfig();
+        return ResponseEntity.ok().build();
+    }
 }
