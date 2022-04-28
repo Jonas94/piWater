@@ -23,7 +23,7 @@ public class PollSensors {
         this.jmsTemplate = publisher;
     }
 
-    @Scheduled(fixedRateString = "${sensor.check.time}")
+    @Scheduled(fixedRateString = "#{userSettings.getOrDefault(Keys.SENSOR_CHECK_TIME,120000)}")
     public void pollSensors() {
         if ((boolean) userSettings.getOrDefault(Keys.ENABLE_POLLING_SENSORS, false)) {
             String sensorTopic = (String) userSettings.getOrDefault(Keys.SENSOR_TOPIC, "topic1");

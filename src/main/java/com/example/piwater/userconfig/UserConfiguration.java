@@ -26,6 +26,9 @@ public class UserConfiguration {
     @Value("${sensors.enable.polling}")
     private boolean defaultEnablePollingSensors;
 
+    @Value("${sensor.check.time}")
+    private int defaultSensorCheckTime;
+
     Map<String, Object> userSettings;
 
     @Autowired
@@ -41,7 +44,7 @@ public class UserConfiguration {
         userSettings.put(Keys.MOISTURE_THRESHOLD, defaultThresholdValue);
         userSettings.put(Keys.SENSOR_TOPIC, defaultSensorTopic);
         userSettings.put(Keys.ENABLE_POLLING_SENSORS, defaultEnablePollingSensors);
-
+        userSettings.put(Keys.SENSOR_CHECK_TIME, defaultSensorCheckTime);
 
         return userSettings;
     }
