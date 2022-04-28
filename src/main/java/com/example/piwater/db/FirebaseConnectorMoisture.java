@@ -34,14 +34,14 @@ public class FirebaseConnectorMoisture extends FirebaseConnector {
 
     public void addDataToFirestore(MoistureInput moistureInput) {
         Firestore db = getFirestore();
-        DocumentReference docRef = db.collection(MOISTURE).document(moistureInput.getTimestamp().toString());
+        CollectionReference collectionRef = db.collection(MOISTURE);
 
         Map<String, Object> data = new HashMap<>();
         data.put(TIME, moistureInput.getDateAsLong());
         data.put(SENSOR, moistureInput.getSensorId());
         data.put(MOISTURE, moistureInput.getMoisture());
         //asynchronously write data
-        ApiFuture<WriteResult> result = docRef.set(data);
+        ApiFuture<DocumentReference> result = collectionRef.add(data);
 
         ApiFutures.addCallback(result, new ApiFutureCallback<>() {
             @Override
@@ -50,8 +50,8 @@ public class FirebaseConnectorMoisture extends FirebaseConnector {
             }
 
             @Override
-            public void onSuccess(WriteResult writeResult) {
-                log.info("Data was added with success! {}", writeResult.toString());
+            public void onSuccess(DocumentReference documentReference) {
+                //Do nothing
             }
 
         }, MoreExecutors.directExecutor());

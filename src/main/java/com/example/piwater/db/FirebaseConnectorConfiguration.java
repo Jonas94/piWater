@@ -52,7 +52,7 @@ public class FirebaseConnectorConfiguration extends FirebaseConnector {
             }
 
         }, MoreExecutors.directExecutor());
-        log.info("Added moisture data to firestore! {}", data);
+        log.info("Added config data to firestore! {}", data);
     }
 
 
