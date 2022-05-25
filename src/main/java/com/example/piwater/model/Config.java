@@ -1,5 +1,8 @@
 package com.example.piwater.model;
 
+import lombok.Data;
+
+@Data
 public class Config {
     private boolean autoWateringEnabled;
     private int defaultWateringMinutes;

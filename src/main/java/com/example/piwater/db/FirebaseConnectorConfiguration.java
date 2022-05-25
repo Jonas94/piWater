@@ -29,7 +29,7 @@ public class FirebaseConnectorConfiguration extends FirebaseConnector {
     public static final String MOISTURE_THRESHOLD = "moistureThreshold";
 
 
-    public void addDataToFirestore(Config config) {
+    public ApiFuture<WriteResult> addDataToFirestore(Config config) {
         Firestore db = getFirestore();
         DocumentReference docRef = db.collection(CONFIGURATION).document(CONFIG);
 
@@ -40,19 +40,7 @@ public class FirebaseConnectorConfiguration extends FirebaseConnector {
         //asynchronously write data
         ApiFuture<WriteResult> result = docRef.set(data);
 
-        ApiFutures.addCallback(result, new ApiFutureCallback<>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                log.info("Data adding failed! {}", throwable.getMessage());
-            }
-
-            @Override
-            public void onSuccess(WriteResult writeResult) {
-                log.info("Data was added with success! {}", writeResult.toString());
-            }
-
-        }, MoreExecutors.directExecutor());
-        log.info("Added config data to firestore! {}", data);
+        return result;
     }
 
 

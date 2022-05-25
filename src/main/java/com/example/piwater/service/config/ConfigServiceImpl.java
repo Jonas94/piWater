@@ -2,6 +2,11 @@ package com.example.piwater.service.config;
 
 import com.example.piwater.db.FirebaseConnectorConfiguration;
 import com.example.piwater.model.Config;
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutureCallback;
+import com.google.api.core.ApiFutures;
+import com.google.cloud.firestore.WriteResult;
+import com.google.common.util.concurrent.MoreExecutors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +59,21 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public void saveConfig(Config config) {
 
-        firebaseConnector.addDataToFirestore(config);
+        log.info("Saving config data to firestore: {}", config);
+        ApiFuture<WriteResult> result = firebaseConnector.addDataToFirestore(config);
+
+        ApiFutures.addCallback(result, new ApiFutureCallback<>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                log.info("Data adding failed! {}", throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(WriteResult writeResult) {
+                log.info("Config data was added with success!");
+                reloadConfig();
+            }
+
+        }, MoreExecutors.directExecutor());
     }
 }
