@@ -29,7 +29,6 @@ public class InboundListener {
 
         Gson gson = new Gson();
         MessageModel messageModel = gson.fromJson(s, MessageModel.class);
-        System.out.println(messageModel.getSensors().get(0));
 
         brain.handleMoistureInformationAndTakeAction(messageModel.getSensors());
     }
