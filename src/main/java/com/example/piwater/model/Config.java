@@ -1,43 +1,19 @@
 package com.example.piwater.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class Config {
     private boolean autoWateringEnabled;
+    private boolean enablePollingSensors;
     private int defaultWateringMinutes;
     private int moistureThreshold;
+    private String sensorTopic;
+    private int sensorCheckTime;
 
-    public Config(boolean autoWateringEnabled, int defaultWateringMinutes, int moistureThreshold) {
-        this.autoWateringEnabled = autoWateringEnabled;
-        this.defaultWateringMinutes = defaultWateringMinutes;
-        this.moistureThreshold = moistureThreshold;
-    }
-
-    public Config() {
-    }
-
-    public boolean isAutoWateringEnabled() {
-        return autoWateringEnabled;
-    }
-
-    public int getDefaultWateringMinutes() {
-        return defaultWateringMinutes;
-    }
-
-    public int getMoistureThreshold() {
-        return moistureThreshold;
-    }
-
-    public void setAutoWateringEnabled(boolean autoWateringEnabled) {
-        this.autoWateringEnabled = autoWateringEnabled;
-    }
-
-    public void setDefaultWateringMinutes(int defaultWateringMinutes) {
-        this.defaultWateringMinutes = defaultWateringMinutes;
-    }
-
-    public void setMoistureThreshold(int moistureThreshold) {
-        this.moistureThreshold = moistureThreshold;
-    }
 }
