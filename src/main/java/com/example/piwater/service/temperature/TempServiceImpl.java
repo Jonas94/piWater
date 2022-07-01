@@ -46,7 +46,7 @@ public class TempServiceImpl implements TempService {
         return sensorHelper.getSensorNames();
     }
 
-    @Scheduled(fixedRate = 900000)
+ //   @Scheduled(fixedRate = 900000)
     @Override
     public void saveCurrentTemp() throws IOException {
         Temperature temperature = getCurrentTemperature();

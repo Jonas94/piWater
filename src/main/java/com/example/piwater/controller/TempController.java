@@ -2,7 +2,6 @@ package com.example.piwater.controller;
 
 import com.example.piwater.model.Temperature;
 import com.example.piwater.service.temperature.TempService;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin
-@RestController
-@RequestMapping("/temp")
+//@RestController
+//@RequestMapping("/temp")
 public class TempController {
 
     TempService tempService;
