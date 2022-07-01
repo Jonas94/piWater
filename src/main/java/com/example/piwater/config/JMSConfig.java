@@ -3,7 +3,6 @@ package com.example.piwater.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jms.annotation.EnableJms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -22,7 +21,6 @@ import javax.jms.JMSException;
 import javax.jms.Session;
 
 @Configuration
-@EnableJms
 public class JMSConfig implements JmsListenerConfigurer {
     @Value("${spring.activemq.broker-url}")
     String BROKER_URL;
