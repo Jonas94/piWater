@@ -27,16 +27,21 @@ public class FirebaseConnectorConfiguration extends FirebaseConnector {
     public static final String AUTO_WATERING_ENABLED = "autoWateringEnabled";
     public static final String DEFAULT_WATERING_MINUTES = "defaultWateringMinutes";
     public static final String MOISTURE_THRESHOLD = "moistureThreshold";
+    public static final String SENSOR_TOPIC = "sensorTopic";
+    public static final String ENABLE_POLLING_SENSORS = "enablePollingSensors";
 
 
     public ApiFuture<WriteResult> addDataToFirestore(Config config) {
         Firestore db = getFirestore();
         DocumentReference docRef = db.collection(CONFIGURATION).document(CONFIG);
 
+        //TODO: Pass config as map instead and put it all in there
         Map<String, Object> data = new HashMap<>();
         data.put(DEFAULT_WATERING_MINUTES, config.getDefaultWateringMinutes());
         data.put(AUTO_WATERING_ENABLED, config.isAutoWateringEnabled());
         data.put(MOISTURE_THRESHOLD, config.getMoistureThreshold());
+        data.put(SENSOR_TOPIC, config.getSensorTopic());
+        data.put(ENABLE_POLLING_SENSORS, config.isEnablePollingSensors());
         //asynchronously write data
         ApiFuture<WriteResult> result = docRef.set(data);
 
@@ -64,6 +69,14 @@ public class FirebaseConnectorConfiguration extends FirebaseConnector {
 
             if (document.contains(MOISTURE_THRESHOLD)) {
                 config.setMoistureThreshold(Integer.parseInt(String.valueOf(document.get(MOISTURE_THRESHOLD))));
+            }
+
+            if (document.contains(SENSOR_TOPIC)) {
+                config.setSensorTopic((String) document.get(SENSOR_TOPIC));
+            }
+
+            if (document.contains(ENABLE_POLLING_SENSORS)) {
+                config.setAutoWateringEnabled(Boolean.TRUE.equals(document.getBoolean(ENABLE_POLLING_SENSORS)));
             }
 
             return config;
