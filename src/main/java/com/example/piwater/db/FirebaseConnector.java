@@ -17,12 +17,12 @@ public class FirebaseConnector {
 
     private static final Logger log = LoggerFactory.getLogger(FirebaseConnector.class);
 
+    public static void initializeFireStore(String configPath) throws IOException {
 
-    public static void initializeFireStore() throws IOException {
-        ClassPathResource resource = new ClassPathResource("waterbutler-7b556-firebase-adminsdk-zgbd1-01123dd482.json");
+        ClassPathResource resource = new ClassPathResource(configPath);
         InputStream inputStream = resource.getInputStream();
         GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(credentials)
                 .build();
         FirebaseApp.initializeApp(options);

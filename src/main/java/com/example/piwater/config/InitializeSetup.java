@@ -16,17 +16,21 @@ import java.util.*;
 
 
 @Component
-@ConfigurationProperties(prefix = "gpio") //TODO: Needed?
+@ConfigurationProperties(prefix = "gpio")
 public class InitializeSetup implements InitializingBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(InitializeSetup.class);
-    @Value("${gpio.enable}")
+    @Value("${gpio.enable}") //TODO: refactor
     private boolean gpioEnabled;
 
-    @Value("${firebase.enable}")
+    @Value("${firebase.enable}")//TODO: refactor
     private boolean firebaseEnabled;
 
-    private RecurringCheckState recurringCheckState;
+    @Value("${firebase.config.path}")//TODO: refactor
+    private String configPath;
+
+
+    private final RecurringCheckState recurringCheckState;
 
     public InitializeSetup(RecurringCheckState recurringCheckState) {
         this.recurringCheckState = recurringCheckState;
@@ -46,7 +50,7 @@ public class InitializeSetup implements InitializingBean {
         recurringCheckState.setLatestCheckTime(new Date().getTime());
 
         if (firebaseEnabled) {
-            FirebaseConnector.initializeFireStore();
+            FirebaseConnector.initializeFireStore(configPath);
         }
     }
 
