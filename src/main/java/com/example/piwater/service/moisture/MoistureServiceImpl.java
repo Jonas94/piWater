@@ -25,7 +25,6 @@ import java.util.stream.Stream;
 
 @Primary
 @Service
-//@ConditionalOnProperty(name = "raspberry.run", havingValue = "true", matchIfMissing = true)
 public class MoistureServiceImpl implements MoistureService {
 
     FirebaseConnectorMoisture firebaseConnector;

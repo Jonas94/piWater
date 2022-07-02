@@ -6,8 +6,7 @@ import com.example.piwater.utils.SensorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@ConditionalOnProperty(name = "raspberry.run", havingValue = "true", matchIfMissing = true)
+@Profile("!local")
 public class TempServiceImpl implements TempService {
 
     FirebaseConnectorTemperature firebaseConnector;

@@ -18,7 +18,6 @@ public class FirebaseConnector {
     private static final Logger log = LoggerFactory.getLogger(FirebaseConnector.class);
 
     public static void initializeFireStore(String configPath) throws IOException {
-
         ClassPathResource resource = new ClassPathResource(configPath);
         InputStream inputStream = resource.getInputStream();
         GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);

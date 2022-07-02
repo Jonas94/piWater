@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @Configuration
 public class UserConfiguration {
 
@@ -22,8 +21,8 @@ public class UserConfiguration {
     @Value("${messaging.outbound.sensor.topic}")
     private String defaultSensorTopic;
 
-    @Value("${sensors.enable.polling}")
-    private boolean defaultEnablePollingSensors;
+    @Value("${watering.default.sensor.polling}")
+    private boolean defaultSensorPolling;
 
     @Value("${sensor.check.time}")
     private int defaultSensorCheckTime;
@@ -37,12 +36,11 @@ public class UserConfiguration {
 
     @Bean(name = "userSettings")
     public Map<String, Object> userSettings() {
-
         userSettings.put(Keys.AUTO_WATERING_ENABLED, false); //TODO: Put it in the props file
         userSettings.put(Keys.DEFAULT_WATERING_MINUTES, defaultMinutesToWater);
         userSettings.put(Keys.MOISTURE_THRESHOLD, defaultThresholdValue);
         userSettings.put(Keys.SENSOR_TOPIC, defaultSensorTopic);
-        userSettings.put(Keys.ENABLE_POLLING_SENSORS, defaultEnablePollingSensors);
+        userSettings.put(Keys.ENABLE_POLLING_SENSORS, defaultSensorPolling);
         userSettings.put(Keys.SENSOR_CHECK_TIME, defaultSensorCheckTime);
 
         return userSettings;

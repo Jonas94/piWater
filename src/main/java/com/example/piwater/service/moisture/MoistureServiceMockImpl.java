@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @Service
-@ConditionalOnProperty(name = "raspberry.run", havingValue = "false")
+@Profile("local")
 public class MoistureServiceMockImpl implements MoistureService {
 
     FirebaseConnectorMoisture firebaseConnector;
