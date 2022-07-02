@@ -7,14 +7,15 @@ import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
 import com.google.cloud.firestore.WriteResult;
 import com.google.common.util.concurrent.MoreExecutors;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Service
 public class ConfigServiceImpl implements ConfigService {
 
@@ -28,11 +29,6 @@ public class ConfigServiceImpl implements ConfigService {
     private static final String MOISTURE_THRESHOLD = "moistureThreshold";
 
     private static final Logger log = LoggerFactory.getLogger(ConfigServiceImpl.class);
-
-    @Autowired
-    public ConfigServiceImpl(FirebaseConnectorConfiguration firebaseConnector) {
-        this.firebaseConnector = firebaseConnector;
-    }
 
     public Config getCurrentConfig() {
         return firebaseConnector.findCurrentConfig();

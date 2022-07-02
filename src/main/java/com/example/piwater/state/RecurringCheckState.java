@@ -1,17 +1,11 @@
 package com.example.piwater.state;
 
+import lombok.Data;
 import org.springframework.stereotype.*;
 
+@Data
 @Component
 public class RecurringCheckState {
 
-	long latestCheckTime;
-
-	public long getLatestCheckTime() {
-		return latestCheckTime;
-	}
-
-	public void setLatestCheckTime(long latestCheckTime) {
-		this.latestCheckTime = latestCheckTime;
-	}
+    private long latestCheckTime;
 }

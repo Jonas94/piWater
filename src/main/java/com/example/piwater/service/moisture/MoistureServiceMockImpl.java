@@ -1,12 +1,10 @@
 package com.example.piwater.service.moisture;
 
 import com.example.piwater.db.FirebaseConnectorMoisture;
-import com.example.piwater.db.FirebaseConnectorTemperature;
 import com.example.piwater.model.Moisture;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +13,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
+@RequiredArgsConstructor
 @Service
 @Profile("local")
 public class MoistureServiceMockImpl implements MoistureService {
 
     FirebaseConnectorMoisture firebaseConnector;
     private static final Logger log = LoggerFactory.getLogger(MoistureServiceMockImpl.class);
-
-    @Autowired
-    public MoistureServiceMockImpl(FirebaseConnectorMoisture firebaseConnector) {
-        this.firebaseConnector = firebaseConnector;
-    }
 
     @Override
     public List<Moisture> getCurrentMoistureValues() throws IOException {
@@ -43,7 +37,7 @@ public class MoistureServiceMockImpl implements MoistureService {
         moistureInput.setMoisture(54.5);
         moistureInput.setSensorId("Mocked sensor #2");
         moistureInput.setTimestamp(LocalDateTime.now());
-      //  firebaseConnector.addDataToFirestore(moistureInput);
+        //  firebaseConnector.addDataToFirestore(moistureInput);
     }
 
 }

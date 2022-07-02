@@ -1,21 +1,17 @@
 package com.example.piwater.model;
 
 import com.pi4j.io.gpio.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.*;
 
+@RequiredArgsConstructor
 @Service
-@ConditionalOnProperty(name = "gpio.enable", havingValue = "true", matchIfMissing = true)
+@Profile("!local")
 public class WaterSystemImpl implements WaterSystem {
 
     private final SimpMessagingTemplate websocket;
-
-    @Autowired
-    public WaterSystemImpl(SimpMessagingTemplate websocket) {
-        this.websocket = websocket;
-    }
 
     @Override
     public boolean isBusy() {

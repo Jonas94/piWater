@@ -4,8 +4,8 @@ import com.example.piwater.db.*;
 import com.example.piwater.exception.*;
 import com.example.piwater.model.*;
 import com.example.piwater.scheduling.*;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import java.time.*;
@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.*;
 
+@RequiredArgsConstructor
 @Service
 public class WaterService {
 
@@ -20,13 +21,6 @@ public class WaterService {
 	WaterScheduler waterScheduler;
 	FirebaseConnectorWatering firebaseConnector;
 	private static final Logger log = LoggerFactory.getLogger(WaterService.class);
-
-	@Autowired
-	public WaterService(WaterSystem waterSystem, WaterScheduler waterScheduler, FirebaseConnectorWatering firebaseConnector) {
-		this.waterSystem = waterSystem;
-		this.waterScheduler = waterScheduler;
-		this.firebaseConnector = firebaseConnector;
-	}
 
 	public void enableWateringForDuration(WaterInput waterInput) throws IsBusyException {
 		if (waterSystem.isBusy()) {
@@ -92,7 +86,6 @@ public class WaterService {
 		return new ArrayList<>();
 	}
 
-
 	public WaterState stopWatering() {
 		log.info("Manual stop triggered!");
 		return waterSystem.changeState(false);
@@ -114,7 +107,6 @@ public class WaterService {
 		}
 		return ongoingWaterings.get(0);
 	}
-
 
 	public WaterState getState() {
 		return waterSystem.getState();

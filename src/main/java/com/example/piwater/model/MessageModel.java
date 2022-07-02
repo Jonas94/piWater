@@ -1,20 +1,11 @@
 package com.example.piwater.model;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class MessageModel {
-    List<Sensor> sensors;
 
-
-    public MessageModel(List<Sensor> sensors) {
-        this.sensors = sensors;
-    }
-
-    public List<Sensor> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(List<Sensor> sensors) {
-        this.sensors = sensors;
-    }
+    private List<Sensor> sensors;
 }

@@ -1,7 +1,7 @@
 package com.example.piwater.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.stereotype.Component;
@@ -13,10 +13,10 @@ import javax.jms.TextMessage;
 /**
  * Used to convert JMS messages from/to JSON. Registered in Spring-JMS automatically via auto configuration
  */
+@RequiredArgsConstructor
 @Component
 public class JsonMessageConverter implements MessageConverter {
 
-    @Autowired
     private ObjectMapper mapper;
 
     /**

@@ -1,8 +1,8 @@
 package com.example.piwater.scheduling;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
@@ -10,6 +10,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+
 import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableScheduling
 public class PollSensors implements SchedulingConfigurer {
@@ -27,12 +29,6 @@ public class PollSensors implements SchedulingConfigurer {
 
     @Resource(name = "userSettings")
     private Map<String, Object> userSettings;
-
-    @Autowired
-    public PollSensors(JmsTemplate publisher, TaskScheduler taskExecutor) {
-        this.jmsTemplate = publisher;
-        this.executor = taskExecutor;
-    }
 
     @Bean
     public Executor taskExecutor() {

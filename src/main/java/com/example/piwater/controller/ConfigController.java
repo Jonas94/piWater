@@ -2,7 +2,7 @@ package com.example.piwater.controller;
 
 import com.example.piwater.model.Config;
 import com.example.piwater.service.config.ConfigService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +11,11 @@ import java.io.IOException;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/config")
 public class ConfigController {
 
-    ConfigService configService;
-
-    @Autowired
-    public ConfigController(ConfigService configService) {
-        this.configService = configService;
-    }
+    private final ConfigService configService;
 
     @GetMapping
     public ResponseEntity<Config> getCurrent() throws IOException {

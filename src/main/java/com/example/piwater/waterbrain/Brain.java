@@ -7,9 +7,9 @@ import com.example.piwater.model.Sensor;
 import com.example.piwater.service.moisture.MoistureService;
 import com.example.piwater.service.watering.WaterInput;
 import com.example.piwater.service.watering.WaterService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -18,22 +18,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Component
 public class Brain {
 
-    WaterService waterService;
-    MoistureService moistureService;
+    private final WaterService waterService;
+    private final MoistureService moistureService;
 
     @Resource(name = "userSettings")
     private Map<String, Object> userSettings;
 
     private static final Logger log = LoggerFactory.getLogger(Brain.class);
-
-    @Autowired
-    public Brain(WaterService waterService, MoistureService moistureService) {
-        this.waterService = waterService;
-        this.moistureService = moistureService;
-    }
 
     public void handleMoistureInformationAndTakeAction(List<Sensor> sensors) throws IOException {
         double totalMoistureValue = 0;

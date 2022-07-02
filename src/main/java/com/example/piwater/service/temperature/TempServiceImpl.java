@@ -3,9 +3,9 @@ package com.example.piwater.service.temperature;
 import com.example.piwater.db.FirebaseConnectorTemperature;
 import com.example.piwater.model.Temperature;
 import com.example.piwater.utils.SensorHelper;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 @Profile("!local")
 public class TempServiceImpl implements TempService {
@@ -22,12 +23,6 @@ public class TempServiceImpl implements TempService {
     SensorHelper sensorHelper;
 
     private static final Logger log = LoggerFactory.getLogger(TempServiceImpl.class);
-
-    @Autowired
-    public TempServiceImpl(FirebaseConnectorTemperature firebaseConnector, SensorHelper sensorHelper) {
-        this.firebaseConnector = firebaseConnector;
-        this.sensorHelper = sensorHelper;
-    }
 
     public Temperature getCurrentTemperature() throws IOException {
         String sensorName = sensorHelper.getSensorNames().get(0);
