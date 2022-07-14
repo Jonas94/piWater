@@ -76,7 +76,7 @@ public class FirebaseConnectorConfiguration extends FirebaseConnector {
             }
 
             if (document.contains(ENABLE_POLLING_SENSORS)) {
-                config.setAutoWateringEnabled(Boolean.TRUE.equals(document.getBoolean(ENABLE_POLLING_SENSORS)));
+                config.setEnablePollingSensors(Boolean.TRUE.equals(document.getBoolean(ENABLE_POLLING_SENSORS)));
             }
 
             return config;

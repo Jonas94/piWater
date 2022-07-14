@@ -19,7 +19,7 @@ import java.util.Map;
 @Service
 public class ConfigServiceImpl implements ConfigService {
 
-    FirebaseConnectorConfiguration firebaseConnector;
+    private final FirebaseConnectorConfiguration firebaseConnector;
 
     @Resource(name = "userSettings")
     private Map<String, Object> userSettings;
