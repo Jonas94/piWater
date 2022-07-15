@@ -17,7 +17,7 @@ import javax.jms.TextMessage;
 @Component
 public class JsonMessageConverter implements MessageConverter {
 
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     /**
      * Converts message to JSON. Used mostly by {@link org.springframework.jms.core.JmsTemplate}

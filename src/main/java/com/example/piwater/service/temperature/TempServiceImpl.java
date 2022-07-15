@@ -19,8 +19,8 @@ import java.util.List;
 @Profile("!local")
 public class TempServiceImpl implements TempService {
 
-    FirebaseConnectorTemperature firebaseConnector;
-    SensorHelper sensorHelper;
+    private final FirebaseConnectorTemperature firebaseConnector;
+    private final SensorHelper sensorHelper;
 
     private static final Logger log = LoggerFactory.getLogger(TempServiceImpl.class);
 

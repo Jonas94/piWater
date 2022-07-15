@@ -17,9 +17,9 @@ import java.util.stream.*;
 @Service
 public class WaterService {
 
-	WaterSystem waterSystem;
-	WaterScheduler waterScheduler;
-	FirebaseConnectorWatering firebaseConnector;
+	private final WaterSystem waterSystem;
+	private final WaterScheduler waterScheduler;
+	private final FirebaseConnectorWatering firebaseConnector;
 	private static final Logger log = LoggerFactory.getLogger(WaterService.class);
 
 	public void enableWateringForDuration(WaterInput waterInput) throws IsBusyException {
