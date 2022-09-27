@@ -20,7 +20,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:2.0.0-alpha0'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'com.pi4j:pi4j-core:1.4'
-    implementation 'com.google.firebase:firebase-admin:7.2.0'
+    implementation 'com.google.firebase:firebase-admin:7.3.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.1'
     implementation 'org.springframework.boot:spring-boot-starter-jersey:2.7.1'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.7.1'
