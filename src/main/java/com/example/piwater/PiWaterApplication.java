@@ -10,17 +10,17 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.scheduling.annotation.*;
 
-import javax.jms.ConnectionFactory;
 
 @EnableScheduling
-@EnableJms
+//@EnableJms
 @SpringBootApplication
 public class PiWaterApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(PiWaterApplication.class, args);
+        SpringApplication.run(PiWaterApplication.class, args);
+    
     }
-
+/*
     @Bean
     public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
                                                     DefaultJmsListenerContainerFactoryConfigurer configurer) {
@@ -31,5 +31,5 @@ public class PiWaterApplication {
         });
         configurer.configure(factory, connectionFactory);
         return factory;
-    }
+    }*/
 }

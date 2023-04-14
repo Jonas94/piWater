@@ -1,5 +1,8 @@
 package com.example.piwater.config;
 
+import jakarta.jms.Destination;
+import jakarta.jms.JMSException;
+import jakarta.jms.Session;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +19,11 @@ import  org.springframework.messaging.converter.MessageConverter;
 import org.springframework.jms.support.destination.DynamicDestinationResolver;
 import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
 
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Session;
+public class JMSConfig  {
+    
+}
 
+/*
 @Configuration
 public class JMSConfig implements JmsListenerConfigurer {
     @Value("${spring.activemq.broker-url}")
@@ -51,7 +55,7 @@ public class JMSConfig implements JmsListenerConfigurer {
     DynamicDestinationResolver destinationResolver() {
         return new DynamicDestinationResolver() {
             @Override
-            public Destination resolveDestinationName(Session session, String destinationName, boolean pubSubDomain) throws JMSException {
+            public Destination resolveDestinationName(Session session, String destinationName, boolean pubSubDomain) throws JMSException, JMSException {
                 if (destinationName.contains("topic")) {
                     pubSubDomain = true;
                 } else {
@@ -79,3 +83,4 @@ public class JMSConfig implements JmsListenerConfigurer {
         jmsListenerEndpointRegistrar.setMessageHandlerMethodFactory(handlerMethodFactory());
     }
 }
+*/

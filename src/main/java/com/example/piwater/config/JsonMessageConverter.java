@@ -1,14 +1,16 @@
 package com.example.piwater.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.Session;
+import jakarta.jms.TextMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.stereotype.Component;
 
-import javax.jms.JMSException;
-import javax.jms.Session;
-import javax.jms.TextMessage;
+
 
 /**
  * Used to convert JMS messages from/to JSON. Registered in Spring-JMS automatically via auto configuration
@@ -23,7 +25,7 @@ public class JsonMessageConverter implements MessageConverter {
      * Converts message to JSON. Used mostly by {@link org.springframework.jms.core.JmsTemplate}
      */
     @Override
-    public javax.jms.Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
+    public Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
         String json;
 
         try {
@@ -42,7 +44,7 @@ public class JsonMessageConverter implements MessageConverter {
      * Extracts JSON payload for further processing by JacksonMapper.
      */
     @Override
-    public Object fromMessage(javax.jms.Message message) throws JMSException, MessageConversionException {
+    public Object fromMessage(Message message) throws JMSException, MessageConversionException {
         return ((TextMessage) message).getText();
     }
 }

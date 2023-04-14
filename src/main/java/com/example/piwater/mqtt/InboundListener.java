@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 @Component
 public class InboundListener {
-
+/*
     private final Brain brain;
 
     @JmsListener(destination = "${messaging.inbound.sensor.topic}")
@@ -27,5 +27,5 @@ public class InboundListener {
         MessageModel messageModel = gson.fromJson(s, MessageModel.class);
 
         brain.handleMoistureInformationAndTakeAction(messageModel.getSensors());
-    }
+    }*/
 }

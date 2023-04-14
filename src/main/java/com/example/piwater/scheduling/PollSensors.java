@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 @EnableScheduling
 public class PollSensors implements SchedulingConfigurer {
     private static final Logger log = LoggerFactory.getLogger(PollSensors.class);
-    private final JmsTemplate jmsTemplate;
+    //private final JmsTemplate jmsTemplate;
     private final TaskScheduler executor;
 
     @Resource(name = "userSettings")
@@ -43,7 +43,7 @@ public class PollSensors implements SchedulingConfigurer {
                     //String sensorTopic = (String) userSettings.getOrDefault(Keys.SENSOR_TOPIC, "topic1");
                     String sensorTopic = "topic";
                     log.info("Polling ESP32 to get current state of sensors on topic: {}", sensorTopic);
-                    jmsTemplate.send(sensorTopic, session -> session.createTextMessage("on"));
+              //      jmsTemplate.send(sensorTopic, session -> session.createTextMessage("on"));
                 },
                 triggerContext -> {
                     Calendar nextExecutionTime = new GregorianCalendar();
@@ -53,7 +53,7 @@ public class PollSensors implements SchedulingConfigurer {
                     nextExecutionTime.add(Calendar.MILLISECOND, 120000); //you can get the value from wherever you want
                     //TODO: Fix this dynamically
 
-                    return nextExecutionTime.getTime();
+                    return nextExecutionTime.getTime().toInstant();
                 }
         );
     }
