@@ -15,7 +15,7 @@ public class MyConfiguration implements WebMvcConfigurer {
     }
             
     @Bean
-    public CorsFilter corsFilter() throws Exception {
+    public CorsFilter corsFilter() {
         return new CorsFilter();
     }
 }

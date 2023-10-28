@@ -17,6 +17,7 @@ public class FirebaseConnectorWatering extends FirebaseConnector {
 
     private static final Logger log = LoggerFactory.getLogger(FirebaseConnectorWatering.class);
 
+    public static final String ACTIVE = "active";
     public static final String START_TIME = "startTime";
     public static final String STOP_TIME = "stopTime";
     public static final String DURATION = "duration";
@@ -48,7 +49,7 @@ public class FirebaseConnectorWatering extends FirebaseConnector {
         data.put("day", recurringWatering.getDays());
         data.put("time", recurringWatering.getTime());
         data.put(DURATION, recurringWatering.getDuration());
-        data.put("active", recurringWatering.isActive());
+        data.put(ACTIVE, recurringWatering.isActive());
 
         ApiFuture<WriteResult> result = docRef.set(data, SetOptions.merge());
 
@@ -69,8 +70,8 @@ public class FirebaseConnectorWatering extends FirebaseConnector {
 
             recurringWatering.setId(document.getId());
 
-            if (document.contains("active")) {
-                recurringWatering.setActive(document.getBoolean("active"));
+            if (document.contains(ACTIVE)) {
+                recurringWatering.setActive(document.getBoolean(ACTIVE));
             }
             if (document.contains("day")) {
                 recurringWatering.setDays((List<String>) document.get("day"));
@@ -95,7 +96,7 @@ public class FirebaseConnectorWatering extends FirebaseConnector {
 
         Date date = new Date();
         long now = date.getTime();
-        Query query = recurringWateringCollection.whereEqualTo("active", true);
+        Query query = recurringWateringCollection.whereEqualTo(ACTIVE, true);
 
         List<RecurringWatering> recurringWaterings = new ArrayList<>();
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
@@ -103,8 +104,8 @@ public class FirebaseConnectorWatering extends FirebaseConnector {
         List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
         for (QueryDocumentSnapshot document : documents) {
             RecurringWatering recurringWatering = new RecurringWatering();
-            if (document.contains("active")) {
-                recurringWatering.setActive(document.getBoolean("active"));
+            if (document.contains(ACTIVE)) {
+                recurringWatering.setActive(document.getBoolean(ACTIVE));
             }
             if (document.contains("day")) {
                 recurringWatering.setDays((List<String>) document.get("day"));

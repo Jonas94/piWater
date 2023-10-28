@@ -1,9 +1,7 @@
 package com.example.piwater.db;
 
 import com.example.piwater.model.Moisture;
-import com.example.piwater.model.Sensor;
 import com.example.piwater.service.moisture.MoistureInput;
-import com.example.piwater.service.watering.Watering;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
@@ -16,7 +14,10 @@ import org.springframework.stereotype.Repository;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
@@ -113,9 +114,7 @@ public class FirebaseConnectorMoisture extends FirebaseConnector {
 
                     moistureValues.add(new Moisture(moistureValue, timestamp, name));
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 

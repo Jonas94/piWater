@@ -4,9 +4,9 @@ public enum MoistureSensors {
     SENSOR_1("Sensor 1"),
     SENSOR_2("Sensor 2");
 
-    public final String name;
+    public final String sensorName;
 
-    private MoistureSensors(String name) {
-        this.name = name;
+    MoistureSensors(String sensorName) {
+        this.sensorName = sensorName;
     }
 }

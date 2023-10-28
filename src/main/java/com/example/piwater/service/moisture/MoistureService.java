@@ -2,7 +2,6 @@ package com.example.piwater.service.moisture;
 
 
 import com.example.piwater.model.Moisture;
-import com.example.piwater.model.Temperature;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

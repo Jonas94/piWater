@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
 import java.io.IOException;
 
 public class CorsFilter extends OncePerRequestFilter {
@@ -18,8 +17,6 @@ public class CorsFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-
-        String origin = request.getHeader(ORIGIN);
 
         response.setHeader("access-control-allow-origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Credentials", "true");
