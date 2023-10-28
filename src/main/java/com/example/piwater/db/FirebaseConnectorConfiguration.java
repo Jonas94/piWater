@@ -2,12 +2,7 @@ package com.example.piwater.db;
 
 import com.example.piwater.model.Config;
 import com.google.api.core.ApiFuture;
-import com.google.api.core.ApiFutureCallback;
-import com.google.api.core.ApiFutures;
 import com.google.cloud.firestore.*;
-import com.google.common.util.concurrent.MoreExecutors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -18,8 +13,6 @@ import java.util.concurrent.ExecutionException;
 
 @Repository
 public class FirebaseConnectorConfiguration extends FirebaseConnector {
-
-    private static final Logger log = LoggerFactory.getLogger(FirebaseConnectorConfiguration.class);
 
     public static final String CONFIGURATION = "configuration";
     public static final String CONFIG = "config";
@@ -43,9 +36,8 @@ public class FirebaseConnectorConfiguration extends FirebaseConnector {
         data.put(SENSOR_TOPIC, config.getSensorTopic());
         data.put(ENABLE_POLLING_SENSORS, config.isEnablePollingSensors());
         //asynchronously write data
-        ApiFuture<WriteResult> result = docRef.set(data);
 
-        return result;
+        return docRef.set(data);
     }
 
 

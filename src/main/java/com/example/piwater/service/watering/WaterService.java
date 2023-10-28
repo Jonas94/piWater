@@ -1,17 +1,21 @@
 package com.example.piwater.service.watering;
 
-import com.example.piwater.db.*;
-import com.example.piwater.exception.*;
-import com.example.piwater.model.*;
-import com.example.piwater.scheduling.*;
+import com.example.piwater.db.FirebaseConnectorWatering;
+import com.example.piwater.exception.IsBusyException;
+import com.example.piwater.model.WaterState;
+import com.example.piwater.model.WaterSystem;
+import com.example.piwater.scheduling.ChangeStateTask;
+import com.example.piwater.scheduling.WaterScheduler;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.*;
-import org.springframework.stereotype.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-import java.time.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @Service
@@ -50,9 +54,7 @@ public class WaterService {
 	public List<Watering> getFutureWaterings() {
 		try {
 			return firebaseConnector.findFutureWaterings();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (ExecutionException | InterruptedException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
@@ -66,9 +68,7 @@ public class WaterService {
 	public List<RecurringWatering> getAllRecurringWaterings() {
 		try {
 			return firebaseConnector.findAllRecurringWaterings();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (ExecutionException | InterruptedException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
@@ -78,9 +78,7 @@ public class WaterService {
 	public List<RecurringWatering> getActiveRecurringWaterings() {
 		try {
 			return firebaseConnector.findActiveRecurringWaterings();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (ExecutionException | InterruptedException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
@@ -96,7 +94,7 @@ public class WaterService {
 		List<Watering> ongoingWaterings = new ArrayList<>();
 		try {
 			possiblyOngoingWaterings = firebaseConnector.findPossiblyOngoingWaterings();
-			ongoingWaterings = possiblyOngoingWaterings.stream().filter(watering -> watering.startDate<= new Date().getTime()).collect(Collectors.toList());
+			ongoingWaterings = possiblyOngoingWaterings.stream().filter(watering -> watering.startDate<= new Date().getTime()).toList();
 
 		} catch (ExecutionException | InterruptedException e) {
 			e.printStackTrace();

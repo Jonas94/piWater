@@ -16,17 +16,16 @@ import java.util.*;
 
 
 @Component
-@ConfigurationProperties(prefix = "gpio")
 public class InitializeSetup implements InitializingBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(InitializeSetup.class);
-    @Value("${gpio.enable}") //TODO: refactor
+    @Value("${gpio.enable}")
     private boolean gpioEnabled;
 
-    @Value("${firebase.enable}")//TODO: refactor
+    @Value("${firebase.enable}")
     private boolean firebaseEnabled;
 
-    @Value("${firebase.config.path}")//TODO: refactor
+    @Value("${firebase.config.path}")
     private String configPath;
 
 

@@ -4,8 +4,6 @@ import com.example.piwater.db.FirebaseConnectorMoisture;
 import com.example.piwater.enums.MoistureSensors;
 import com.example.piwater.model.Moisture;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -20,19 +18,17 @@ public class MoistureServiceImpl implements MoistureService {
 
     private final FirebaseConnectorMoisture firebaseConnector;
 
-    private static final Logger log = LoggerFactory.getLogger(MoistureServiceImpl.class);
-
     public List<Moisture> getCurrentMoistureValues() {
         List<String> sensorNames = new ArrayList<>();
         for (MoistureSensors moistureSensor : MoistureSensors.values()) {
-            sensorNames.add(moistureSensor.name);
+            sensorNames.add(moistureSensor.sensorName);
         }
         return firebaseConnector.findLatestMoistureValues(sensorNames);
     }
 
     @Override
     public List<Moisture> getHistoricalMoistureValues(LocalDateTime since) {
-        return null; //TODO: Implement this
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override

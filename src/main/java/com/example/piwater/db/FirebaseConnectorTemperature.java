@@ -1,8 +1,6 @@
 package com.example.piwater.db;
 
 import com.example.piwater.service.temperature.TempInput;
-import com.example.piwater.service.watering.RecurringWatering;
-import com.example.piwater.service.watering.WaterInput;
 import com.example.piwater.service.watering.Watering;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.ApiFutureCallback;
@@ -13,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 
 
 @Repository
@@ -49,7 +49,7 @@ public class FirebaseConnectorTemperature extends FirebaseConnector {
 
             @Override
             public void onSuccess(WriteResult writeResult) {
-                log.info("Data was added with success! {}", writeResult.toString());
+                log.info("Data was added with success! {}", writeResult);
             }
 
         }, MoreExecutors.directExecutor());
