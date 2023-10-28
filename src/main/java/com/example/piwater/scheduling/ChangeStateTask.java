@@ -1,7 +1,8 @@
 package com.example.piwater.scheduling;
 
-import com.example.piwater.model.*;
-import org.slf4j.*;
+import com.example.piwater.model.WaterSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChangeStateTask implements Runnable {
 	//TODO: hide this class better, make sure it can never be used from the wrong place

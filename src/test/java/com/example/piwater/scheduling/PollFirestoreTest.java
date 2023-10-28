@@ -1,19 +1,22 @@
 package com.example.piwater.scheduling;
 
-import com.example.piwater.db.*;
+import com.example.piwater.db.FirebaseConnector;
 import com.example.piwater.service.watering.RecurringWatering;
-import com.example.piwater.state.*;
+import com.example.piwater.state.RecurringCheckState;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class PollFirestoreTest {
+class PollFirestoreTest {
 
     @Mock
     RecurringCheckState recurringCheckState;
@@ -36,9 +39,6 @@ public class PollFirestoreTest {
         days.add("wed");
 
         recurringWatering.setDays(days);
-
-        List<String> times = new ArrayList<>();
-        times.add("16:00");
 
         recurringWatering.setTime("16:00");
 
@@ -73,7 +73,7 @@ public class PollFirestoreTest {
     }
 
     @Test
-    public void shouldNotGiveRecurringWateringWhenDayIsWrong() {
+    void shouldNotGiveRecurringWateringWhenDayIsWrong() {
         List<RecurringWatering> recurringWateringList = new ArrayList<>();
         RecurringWatering recurringWatering = new RecurringWatering();
 

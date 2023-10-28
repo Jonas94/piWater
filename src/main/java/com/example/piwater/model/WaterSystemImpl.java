@@ -1,10 +1,13 @@
 package com.example.piwater.model;
 
-import com.pi4j.io.gpio.*;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.RaspiPin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.*;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service

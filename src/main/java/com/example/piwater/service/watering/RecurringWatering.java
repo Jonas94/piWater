@@ -1,6 +1,6 @@
 package com.example.piwater.service.watering;
 
-import java.util.*;
+import java.util.List;
 
 public class RecurringWatering {
 

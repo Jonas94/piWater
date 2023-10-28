@@ -35,7 +35,7 @@ class TempServiceTest {
     void testGetCurrentTemperature() throws IOException {
         when(sensorHelper.getSensorNames()).thenReturn(List.of(MOCKED_SENSOR));
         when(sensorHelper.getTemperatureForSensor(MOCKED_SENSOR)).thenReturn(99.0);
-        assertEquals(99, tempService.getCurrentTemperature().getTemperatureInCelsius());
+        assertEquals(99, tempService.getCurrentTemperature().temperatureInCelsius());
     }
 
     @Test

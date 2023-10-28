@@ -1,24 +1,5 @@
 package com.example.piwater.config;
 
-import jakarta.jms.Destination;
-import jakarta.jms.JMSException;
-import jakarta.jms.Session;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.springframework.jms.annotation.JmsListenerConfigurer;
-import org.springframework.jms.config.JmsListenerEndpointRegistrar;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import  org.springframework.messaging.converter.MessageConverter;
-
-import org.springframework.jms.support.destination.DynamicDestinationResolver;
-import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
-
 public class JMSConfig  {
     
 }

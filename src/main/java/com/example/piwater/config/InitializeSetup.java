@@ -1,18 +1,18 @@
 package com.example.piwater.config;
 
-import com.example.piwater.db.*;
-import com.example.piwater.state.*;
+import com.example.piwater.db.FirebaseConnector;
+import com.example.piwater.state.RecurringCheckState;
 import com.pi4j.io.gpio.*;
-import org.slf4j.*;
-import org.springframework.beans.factory.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.context.properties.*;
-import org.springframework.context.annotation.*;
-import org.springframework.context.support.*;
-import org.springframework.stereotype.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.stereotype.Component;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Date;
 
 
 @Component

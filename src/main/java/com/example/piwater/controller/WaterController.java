@@ -1,16 +1,20 @@
 package com.example.piwater.controller;
 
-import com.example.piwater.exception.*;
-import com.example.piwater.model.*;
+import com.example.piwater.exception.IsBusyException;
+import com.example.piwater.model.WaterState;
 import com.example.piwater.service.watering.RecurringWatering;
 import com.example.piwater.service.watering.WaterInput;
 import com.example.piwater.service.watering.WaterService;
 import com.example.piwater.service.watering.Watering;
-import com.pi4j.io.gpio.*;
-import org.springframework.http.*;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.RaspiPin;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -44,7 +48,7 @@ public class WaterController {
 		try{
 			waterService.enableWateringForDuration(waterInput);
 		} catch (IsBusyException e) {
-			return ResponseEntity.ok(new RestResult("Water system is busy, please try later!"));
+			return ResponseEntity.ok(new MessageResponse("Water system is busy, please try later!"));
 		}
 
 		return ResponseEntity.ok(new EnableWateringResponse(waterInput.getStartDateAsLong(), waterInput.getMinutesToWater()));
@@ -81,12 +85,12 @@ public class WaterController {
 	}
 
 	@GetMapping("/shutdown")
-	public ResponseEntity<RestResult> shutdown(){
+	public ResponseEntity<MessageResponse> shutdown(){
 		final GpioController gpio = GpioFactory.getInstance();
 		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED");
 		gpio.shutdown();
 		gpio.unprovisionPin(pin);
-		return ResponseEntity.ok(new RestResult("Shutdown!"));
+		return ResponseEntity.ok(new MessageResponse("Shutdown!"));
 	}
 
 

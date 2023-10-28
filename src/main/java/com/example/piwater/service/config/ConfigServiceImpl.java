@@ -48,13 +48,11 @@ public class ConfigServiceImpl implements ConfigService {
         userSettings.put(AUTO_WATERING_ENABLED, config.isAutoWateringEnabled());
         userSettings.put(DEFAULT_WATERING_MINUTES, config.getDefaultWateringMinutes());
         userSettings.put(MOISTURE_THRESHOLD, config.getMoistureThreshold());
-
     }
 
 
     @Override
     public void saveConfig(Config config) {
-
         log.info("Saving config data to firestore: {}", config);
         ApiFuture<WriteResult> result = firebaseConnector.addDataToFirestore(config);
 

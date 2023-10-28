@@ -45,9 +45,9 @@ public class TempServiceImpl implements TempService {
     public void saveCurrentTemp() throws IOException {
         Temperature temperature = getCurrentTemperature();
         TempInput tempInput = new TempInput();
-        tempInput.setTemperature(temperature.getTemperatureInCelsius());
-        tempInput.setSensorId(temperature.getSensorId());
-        tempInput.setTimestamp(temperature.getTimestamp());
+        tempInput.setTemperature(temperature.temperatureInCelsius());
+        tempInput.setSensorId(temperature.sensorId());
+        tempInput.setTimestamp(temperature.timestamp());
         firebaseConnector.addDataToFirestore(tempInput);
     }
 

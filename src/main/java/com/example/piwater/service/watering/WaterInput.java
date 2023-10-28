@@ -1,8 +1,9 @@
 package com.example.piwater.service.watering;
 
-import org.springframework.format.annotation.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class WaterInput {
 	private int minutesToWater;

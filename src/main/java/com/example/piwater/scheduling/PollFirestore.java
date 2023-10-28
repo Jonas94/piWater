@@ -1,20 +1,25 @@
 package com.example.piwater.scheduling;
 
-import com.example.piwater.db.*;
-import com.example.piwater.exception.*;
-import com.example.piwater.model.*;
+import com.example.piwater.db.FirebaseConnectorWatering;
+import com.example.piwater.exception.IsBusyException;
+import com.example.piwater.model.Weekday;
 import com.example.piwater.service.watering.RecurringWatering;
 import com.example.piwater.service.watering.WaterInput;
 import com.example.piwater.service.watering.WaterService;
-import com.example.piwater.state.*;
-import org.slf4j.*;
-import org.springframework.scheduling.annotation.*;
-import org.springframework.stereotype.*;
+import com.example.piwater.state.RecurringCheckState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import java.text.*;
-import java.time.*;
-import java.util.*;
-import java.util.concurrent.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class PollFirestore {

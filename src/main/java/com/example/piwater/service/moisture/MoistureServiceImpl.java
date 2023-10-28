@@ -34,9 +34,9 @@ public class MoistureServiceImpl implements MoistureService {
     @Override
     public void saveCurrentMoistureValue(Moisture moisture) {
         MoistureInput moistureInput = new MoistureInput();
-        moistureInput.setMoisture(moisture.getMoistureValue());
-        moistureInput.setSensorId(moisture.getSensorId());
-        moistureInput.setTimestamp(moisture.getTimestamp());
+        moistureInput.setMoisture(moisture.moistureValue());
+        moistureInput.setSensorId(moisture.sensorId());
+        moistureInput.setTimestamp(moisture.timestamp());
         firebaseConnector.addDataToFirestore(moistureInput);
     }
 }

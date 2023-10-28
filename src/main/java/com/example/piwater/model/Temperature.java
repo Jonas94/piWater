@@ -1,15 +1,7 @@
 package com.example.piwater.model;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
-@Data
-public class Temperature {
+public record Temperature(Double temperatureInCelsius, LocalDateTime timestamp, String sensorId) {
 
-    private final Double temperatureInCelsius;
-    private final LocalDateTime timestamp;
-    private final String sensorId;
 }
